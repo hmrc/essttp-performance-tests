@@ -21,15 +21,27 @@ import uk.gov.hmrc.perftests.example.Requests._
 
 class Simulation extends PerformanceTestRunner {
 
-  setup("start-page", "Start Page") withRequests (getStartPage, postStartPage)
+  setup("start-page-business", "Start Page - Business") withRequests (getStartPage, postStartPageBusiness)
+
+  setup("start-page-individual", "Start Page - Individual") withRequests (getStartPage, postStartPageIndividual)
+
+  setup("start-page-ineligible", "Start Page - Ineligible") withRequests (getStartPage, postStartPageIneligible)
 
   setup("bta-page", "BTA Page") withRequests (getBtaPage, getStartBta)
 
-  setup("landing-page", "Landing Page") withRequests (getLandingPage, getDetermineTaxId, getDetermineEligibility)
+  setup("landing-page-eligible", "Landing Page - Eligible") withRequests (getLandingPage, getDetermineTaxId, getDetermineEligibilityPass)
+
+  setup("landing-page-ineligible", "Landing Page - Ineligible") withRequests (getLandingPage, getDetermineTaxId, getDetermineEligibilityFail)
+
+  setup("github-page", "Github Page") withRequests (getGithubPage, getStart, getDetermineTaxId, getDetermineEligibilityPass)
+
+  setup ("ineligible-page", "Ineligible Page") withRequests getIneligiblePage
 
   setup ("your-bill-page", "Your Bill Page") withRequests(getYourBillPage, postYourBillPage)
 
-  setup ("can-pay-upfront-page", "Can Pay Upfront Page") withRequests(getCanUpfrontPage, postCanUpfrontPage)
+  setup ("can-pay-upfront-page-yes", "Can Pay Upfront Page - Yes") withRequests(getCanUpfrontPage, postCanUpfrontPageYes)
+
+  setup ("can-pay-upfront-page-no", "Can Pay Upfront Page - No") withRequests(getCanUpfrontPage, postCanUpfrontPageNo, getRetrieveExtremeDates, getDetermineAffordability)
 
   setup ("how-much-upfront-page", "How Much to Pay Upfront Page") withRequests(getHowMuchUpfrontPage, postHowMuchUpfrontPage)
 
@@ -43,9 +55,13 @@ class Simulation extends PerformanceTestRunner {
 
   setup ("check-payment-plan-page", "Check Payment Plan Page") withRequests(getCheckPaymentPlanPage, postCheckPaymentPlanPage)
 
-  setup ("account-type-page", "Account Type Page") withRequests(getAccountTypePage, postAccountTypePage)
+  setup ("account-type-page-business", "Account Type Page - Business") withRequests(getAccountTypePage, postAccountTypePageBusiness)
 
-  setup ("setup-direct-debit-page", "Setup Direct Debit Page") withRequests(getSetupDirectDebitPage, postSetupDirectDebitPage)
+  setup ("account-type-page-personal", "Account Type Page - Personal") withRequests(getAccountTypePage, postAccountTypePagePersonal)
+
+  setup ("setup-direct-debit-page-business", "Setup Direct Debit Page - Business") withRequests(getSetupDirectDebitPage, postSetupDirectDebitPageBusiness)
+
+  setup ("setup-direct-debit-page-personal", "Setup Direct Debit Page - Personal") withRequests(getSetupDirectDebitPage, postSetupDirectDebitPagePersonal)
 
   setup ("direct-debit-summary-page", "Direct Debit Summary Page") withRequests(getDirectDebitSummaryPage, postDirectDebitSummaryPage)
 
@@ -54,4 +70,5 @@ class Simulation extends PerformanceTestRunner {
   setup ("confirmation-page", "Confirmation Page") withRequests getConfirmationPage
 
   runSimulation()
+
 }

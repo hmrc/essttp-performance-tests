@@ -32,14 +32,40 @@ object Requests extends ServicesConfiguration {
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
-  val postStartPage: HttpRequestBuilder =
-    http("Post VAT return Period")
+  val postStartPageBusiness: HttpRequestBuilder =
+    http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("signInAs", "Organisation")
       .formParam("enrolments[]", "Epaye")
       .formParam("debtTotalAmount", "3000")
       .formParam("taxReference","")
+      .formParam("origin", "Origins.Epaye.Bta")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/test-only/bta-page").saveAs("btaPage"))
+
+  val postStartPageIndividual: HttpRequestBuilder =
+    http("Post Start Page - Individual")
+      .post(s"$baseUrl$route/test-only/start-journey": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("signInAs", "Individual")
+      .formParam("enrolments[]", "Epaye")
+      .formParam("debtTotalAmount", "3000")
+      .formParam("taxReference","")
+      .formParam("origin", "Origins.Epaye.GovUk")
+      .check(status.is(303))
+      .check(header("Location").is("https://github.com/hmrc/essttp-frontend#emulate-start-journey-from-gov-uk"))
+
+  val postStartPageIneligible: HttpRequestBuilder =
+    http("Post Start Page - Ineligible")
+      .post(s"$baseUrl$route/test-only/start-journey": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("signInAs", "Organisation")
+      .formParam("enrolments[]", "Epaye")
+      .formParam("debtTotalAmount", "3000")
+      .formParam("taxReference","")
+      .formParam("eligibilityErrors[]","IsMoreThanMaxDebtAllowance")
+      .formParam("eligibilityErrors[]","ExistingTtp")
       .formParam("origin", "Origins.Epaye.Bta")
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/bta-page").saveAs("btaPage"))
@@ -55,6 +81,17 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").saveAs("LandingPage"))
 
+  val getGithubPage: HttpRequestBuilder =
+    http("Get Github Page")
+      .get("https://github.com/hmrc/essttp-frontend")
+      .check(status.is(200))
+
+  val getStart: HttpRequestBuilder =
+    http("Get Start")
+      .get(s"$baseUrl$route/govuk/epaye/start": String)
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/determine-taxId"))
+
   val getLandingPage: HttpRequestBuilder =
     http("Get Landing Page")
       .get(s"$${LandingPage}")
@@ -66,11 +103,22 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").is(s"$route/determine-eligibility").saveAs("DetermineEligibility"))
 
-  val getDetermineEligibility: HttpRequestBuilder =
-    http("Get Determine Eligibility")
+  val getDetermineEligibilityPass: HttpRequestBuilder =
+    http("Get Determine Eligibility - Pass")
       .get(s"$baseUrl$${DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/your-bill").saveAs("YourBillPage"))
+
+  val getDetermineEligibilityFail: HttpRequestBuilder =
+    http("Get Determine Eligibility - Fail")
+      .get(s"$baseUrl$${DetermineEligibility}")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/not-eligible").saveAs("IneligiblePage"))
+
+  val getIneligiblePage: HttpRequestBuilder =
+    http("Get Ineligible Page")
+      .get(s"$baseUrl$${IneligiblePage}")
+      .check(status.is(200))
 
   val getYourBillPage: HttpRequestBuilder =
     http("Get Your Bill Page")
@@ -91,13 +139,21 @@ object Requests extends ServicesConfiguration {
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
-  val postCanUpfrontPage: HttpRequestBuilder =
-    http("Post Can You Pay Upfront Page")
+  val postCanUpfrontPageYes: HttpRequestBuilder =
+    http("Post Can You Pay Upfront Page - Yes")
       .post(s"$baseUrl$${CanUpfrontPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("CanYouMakeAnUpFrontPayment", "Yes")
       .check(status.is(303))
       .check(header("Location").is(s"$route/how-much-can-you-pay-upfront").saveAs("HowMuchUpfrontPage"))
+
+  val postCanUpfrontPageNo: HttpRequestBuilder =
+    http("Post Can You Pay Upfront Page - No")
+      .post(s"$baseUrl$${CanUpfrontPage}": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("CanYouMakeAnUpFrontPayment", "No")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/retrieve-extreme-dates"))
 
   val getHowMuchUpfrontPage: HttpRequestBuilder =
     http("Get How Much Can You Pay Upfront Page")
@@ -109,7 +165,7 @@ object Requests extends ServicesConfiguration {
     http("Post How Much Can You Pay Upfront Page")
       .post(s"$baseUrl$${HowMuchUpfrontPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("UpfrontPaymentAmount", "2000")
+      .formParam("UpfrontPaymentAmount", "1000")
       .check(status.is(303))
       .check(header("Location").is(s"$route/upfront-payment-summary").saveAs("UpfrontSummaryPage"))
 
@@ -140,7 +196,7 @@ object Requests extends ServicesConfiguration {
     http("Post How Much Can You Pay Monthly Page")
       .post(s"$baseUrl$${HowMuchMonthlyPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("MonthlyPaymentAmount", "500")
+      .formParam("MonthlyPaymentAmount", "600")
       .check(status.is(303))
       .check(header("Location").is(s"$route/which-day-do-you-want-to-pay-each-month").saveAs("WhichDayPage"))
 
@@ -181,7 +237,7 @@ object Requests extends ServicesConfiguration {
     http("Post How Many Months Page")
       .post(s"$baseUrl$${HowManyMonthsPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("Instalments", "3")
+      .formParam("Instalments", "4")
       .check(status.is(303))
       .check(header("Location").is(s"$route/check-your-payment-plan").saveAs("CheckPlanPage"))
 
@@ -204,11 +260,19 @@ object Requests extends ServicesConfiguration {
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
-  val postAccountTypePage: HttpRequestBuilder =
-    http("Post Account Type Page")
+  val postAccountTypePageBusiness: HttpRequestBuilder =
+    http("Post Account Type Page - Business")
       .post(s"$baseUrl$${AccountTypePage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("typeOfAccount", "Business")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/set-up-direct-debit").saveAs("DirectDebitPage"))
+
+  val postAccountTypePagePersonal: HttpRequestBuilder =
+    http("Post Account Type Page - Personal")
+      .post(s"$baseUrl$${AccountTypePage}": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("typeOfAccount", "Personal")
       .check(status.is(303))
       .check(header("Location").is(s"$route/set-up-direct-debit").saveAs("DirectDebitPage"))
 
@@ -218,13 +282,24 @@ object Requests extends ServicesConfiguration {
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
-  val postSetupDirectDebitPage: HttpRequestBuilder =
-    http("Post Setup Direct Debit Page")
+  val postSetupDirectDebitPageBusiness: HttpRequestBuilder =
+    http("Post Setup Direct Debit Page - Business")
       .post(s"$baseUrl$${DirectDebitPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("name", "Lambent Illumination")
       .formParam("sortCode", "207102")
       .formParam("accountNumber", "86563611")
+      .formParam("isSoleSignatory", "Yes")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/check-your-direct-debit-details").saveAs("CheckDirectDebitPage"))
+
+  val postSetupDirectDebitPagePersonal: HttpRequestBuilder =
+    http("Post Setup Direct Debit Page - Personal")
+      .post(s"$baseUrl$${DirectDebitPage}": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("name", "Teddy Dickson")
+      .formParam("sortCode", "207102")
+      .formParam("accountNumber", "44311655")
       .formParam("isSoleSignatory", "Yes")
       .check(status.is(303))
       .check(header("Location").is(s"$route/check-your-direct-debit-details").saveAs("CheckDirectDebitPage"))
