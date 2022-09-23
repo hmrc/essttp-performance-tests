@@ -254,13 +254,13 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").is(s"$route/about-your-bank-account").saveAs("AboutYourBankAccountPage"))
 
-  val getAccountTypePage: HttpRequestBuilder =
+  val getAboutYourBankAccountPage: HttpRequestBuilder =
     http("Get About Your Bank Account Page")
       .get(s"$baseUrl$${AboutYourBankAccountPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
-  val postAccountTypePageBusiness: HttpRequestBuilder =
+  val postAboutYourBankAccountPageBusiness: HttpRequestBuilder =
     http("Post About Your Bank Account Page - Business")
       .post(s"$baseUrl$${AboutYourBankAccountPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
@@ -269,7 +269,7 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").is(s"$route/set-up-direct-debit").saveAs("DirectDebitPage"))
 
-  val postAccountTypePagePersonal: HttpRequestBuilder =
+  val postAboutYourBankAccountPagePersonal: HttpRequestBuilder =
     http("Post About Your Bank Account Page - Personal")
       .post(s"$baseUrl$${AboutYourBankAccountPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")

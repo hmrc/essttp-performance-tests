@@ -88,12 +88,12 @@ class Simulation extends PerformanceTestRunner {
   setup(
     "about-your-bank-account-page-business",
     "About Your Bank Account Page - Business"
-  ) withRequests (getAccountTypePage, postAccountTypePageBusiness)
+  ) withRequests (getAboutYourBankAccountPage, postAboutYourBankAccountPageBusiness)
 
   setup(
     "about-your-bank-account-page-personal",
     "About Your Bank Account Page - Personal"
-  ) withRequests (getAccountTypePage, postAccountTypePagePersonal)
+  ) withRequests (getAboutYourBankAccountPage, postAboutYourBankAccountPagePersonal)
 
   setup(
     "setup-direct-debit-page-business",
