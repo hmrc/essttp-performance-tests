@@ -40,9 +40,9 @@ class Simulation extends PerformanceTestRunner {
   ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFail)
 
   setup(
-    "github-page",
-    "Github Page"
-  ).withRequests(getGithubPage, getStart, getDetermineTaxId, getDetermineEligibilityPass)
+    "detached-url",
+    "Detached URL"
+  ).withRequests(getStart, getDetermineTaxId, getDetermineEligibilityPass)
 
   setup("ineligible-page", "Ineligible Page") withRequests getIneligiblePage
 
@@ -113,9 +113,24 @@ class Simulation extends PerformanceTestRunner {
   setup(
     "terms-and-conditions-page",
     "Terms and Conditions Page"
-  ).withRequests(getTermsAndConditionsPage, postTermsAndConditionsPage, getSubmitArrangement)
+  ).withRequests(getTermsAndConditionsPage, postTermsAndConditionsPage)
 
-  setup("confirmation-page", "Confirmation Page") withRequests getConfirmationPage
+  setup(
+    "which-email-page",
+    "Which Email Page"
+  ).withRequests(getWhichEmailPage, postWhichEmailPage)
+
+  setup(
+    "verification-frontend",
+    "Verification Frontend"
+  ).withRequests(getEmailVerification, getVerificationFrontend, getTestOnlyPasscode, postVerificationFrontend)
+
+  setup(
+    "email-confirmation-page",
+    "Email Confirmation Page"
+  ).withRequests(getEmailCallback, getEmailConfirmationPage)
+
+  setup("confirmation-page", "Confirmation Page") withRequests (getSubmitArrangement, getConfirmationPage)
 
   runSimulation()
 

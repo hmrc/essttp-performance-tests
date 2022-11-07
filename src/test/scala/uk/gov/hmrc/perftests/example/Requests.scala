@@ -24,6 +24,7 @@ import uk.gov.hmrc.performance.conf.ServicesConfiguration
 object Requests extends ServicesConfiguration {
 
   val baseUrl: String = baseUrlFor("essttp-frontend")
+  val emailUrl: String = baseUrlFor("email-verification")
   val route: String   = "/set-up-a-payment-plan"
 
   val getStartPage: HttpRequestBuilder =
@@ -36,39 +37,42 @@ object Requests extends ServicesConfiguration {
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey": String)
       .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("taxRegime", "Epaye")
       .formParam("signInAs", "Organisation")
       .formParam("enrolments[]", "Epaye")
-      .formParam("debtTotalAmount", "3000")
+      .formParam("payeDebtTotalAmount", "3000")
       .formParam("taxReference", "")
       .formParam("origin", "Origins.Epaye.Bta")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/test-only/bta-page").saveAs("btaPage"))
+      .check(header("Location").is(s"$route/test-only/bta-epaye-page").saveAs("btaPage"))
 
   val postStartPageIndividual: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey": String)
       .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("taxRegime", "Epaye")
       .formParam("signInAs", "Individual")
       .formParam("enrolments[]", "Epaye")
-      .formParam("debtTotalAmount", "3000")
+      .formParam("payeDebtTotalAmount", "3000")
       .formParam("taxReference", "")
-      .formParam("origin", "Origins.Epaye.GovUk")
+      .formParam("origin", "Origins.Epaye.DetachedUrl")
       .check(status.is(303))
-      .check(header("Location").is("https://github.com/hmrc/essttp-frontend#emulate-start-journey-from-gov-uk"))
+      .check(header("Location").is(s"$route/govuk/epaye/start").saveAs("start"))
 
   val postStartPageIneligible: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey": String)
       .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("taxRegime", "Epaye")
       .formParam("signInAs", "Organisation")
       .formParam("enrolments[]", "Epaye")
-      .formParam("debtTotalAmount", "3000")
+      .formParam("payeDebtTotalAmount", "3000")
       .formParam("taxReference", "")
       .formParam("eligibilityErrors[]", "IsMoreThanMaxDebtAllowance")
       .formParam("eligibilityErrors[]", "ExistingTtp")
       .formParam("origin", "Origins.Epaye.Bta")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/test-only/bta-page").saveAs("btaPage"))
+      .check(header("Location").is(s"$route/test-only/bta-epaye-page").saveAs("btaPage"))
 
   val getBtaPage: HttpRequestBuilder =
     http("Get BTA Page")
@@ -81,16 +85,11 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").saveAs("LandingPage"))
 
-  val getGithubPage: HttpRequestBuilder =
-    http("Get Github Page")
-      .get("https://github.com/hmrc/essttp-frontend")
-      .check(status.is(200))
-
   val getStart: HttpRequestBuilder =
     http("Get Start")
-      .get(s"$baseUrl$route/govuk/epaye/start": String)
+      .get(s"$baseUrl$${start}": String)
       .check(status.is(303))
-      .check(header("Location").is(s"$route/determine-taxId"))
+      .check(header("Location").saveAs("LandingPage"))
 
   val getLandingPage: HttpRequestBuilder =
     http("Get Landing Page")
@@ -113,7 +112,7 @@ object Requests extends ServicesConfiguration {
     http("Get Determine Eligibility - Fail")
       .get(s"$baseUrl$${DetermineEligibility}")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/not-eligible").saveAs("IneligiblePage"))
+      .check(header("Location").is(s"$route/not-eligible-epaye").saveAs("IneligiblePage"))
 
   val getIneligiblePage: HttpRequestBuilder =
     http("Get Ineligible Page")
@@ -328,11 +327,62 @@ object Requests extends ServicesConfiguration {
       .post(s"$baseUrl$${TermsPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/submit-arrangement").saveAs("SubmitArrangement"))
+      .check(header("Location").is(s"$route/which-email-do-you-want-to-use").saveAs("WhichEmailPage"))
+
+  val getWhichEmailPage: HttpRequestBuilder =
+    http("Get Which Email Page")
+      .get(s"$baseUrl$${WhichEmailPage}")
+      .check(status.is(200))
+      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+
+  val postWhichEmailPage: HttpRequestBuilder =
+    http("Post Which Email Page")
+      .post(s"$baseUrl$${WhichEmailPage}": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("selectAnEmailToUseRadio", "new")
+      .formParam("newEmailInput", "helloexample@email.com")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/email-verification").saveAs("EmailVerification"))
+
+  val getEmailVerification: HttpRequestBuilder =
+    http("Get Email Verification")
+      .get(s"$baseUrl$${EmailVerification}")
+      .check(status.is(303))
+      .check(header("Location").saveAs("VerificationFrontend"))
+
+  val getVerificationFrontend: HttpRequestBuilder =
+    http("Get Verification Frontend")
+      .get(s"$emailUrl$${VerificationFrontend}")
+      .check(status.is(200))
+
+  val getTestOnlyPasscode: HttpRequestBuilder =
+    http("Get Test Only Passcode")
+      .get(s"$baseUrl$route/test-only/email-verification-passcodes")
+      .check(jsonPath("$..passcode").find.saveAs("code"))
+      .check(status.is(200))
+
+  val postVerificationFrontend: HttpRequestBuilder =
+    http("Post Verification Frontend")
+      .post(s"$emailUrl$${VerificationFrontend}")
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("passcode", s"$${code}")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/email-callback").saveAs("EmailCallback"))
+
+  val getEmailCallback: HttpRequestBuilder =
+    http("Get Email Callback")
+      .get(s"$baseUrl$${EmailCallback}")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/email-address-confirmed").saveAs("EmailConfirmationPage"))
+
+  val getEmailConfirmationPage: HttpRequestBuilder =
+    http("Get Email Confirmation Page")
+      .get(s"$baseUrl$${EmailConfirmationPage}")
+      .check(status.is(200))
 
   val getSubmitArrangement: HttpRequestBuilder =
     http("Get Submit Arrangement")
-      .get(s"$baseUrl$${SubmitArrangement}")
+      .get(s"$baseUrl$route/submit-arrangement")
       .check(status.is(303))
       .check(header("Location").is(s"$route/payment-plan-set-up").saveAs("ConfirmationPage"))
 
