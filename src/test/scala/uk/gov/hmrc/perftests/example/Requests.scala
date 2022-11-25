@@ -57,7 +57,7 @@ object Requests extends ServicesConfiguration {
       .formParam("taxReference", "")
       .formParam("origin", "Origins.Epaye.DetachedUrl")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/govuk/epaye/start").saveAs("start"))
+      .check(header("Location").is(s"$route/epaye/start").saveAs("start"))
 
   val postStartPageIneligible: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
@@ -358,7 +358,7 @@ object Requests extends ServicesConfiguration {
   val getTestOnlyPasscode: HttpRequestBuilder =
     http("Get Test Only Passcode")
       .get(s"$baseUrl$route/test-only/email-verification-passcodes")
-      .check(jsonPath("$..passcode").find.saveAs("code"))
+      .check(jsonPath("$..passcodes[0].passcode").find.saveAs("code"))
       .check(status.is(200))
 
   val postVerificationFrontend: HttpRequestBuilder =
