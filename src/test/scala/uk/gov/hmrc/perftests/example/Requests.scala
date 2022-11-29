@@ -358,7 +358,7 @@ object Requests extends ServicesConfiguration {
   val getTestOnlyPasscode: HttpRequestBuilder =
     http("Get Test Only Passcode")
       .get(s"$baseUrl$route/test-only/email-verification-passcodes")
-      .check(jsonPath("$..passcodes[0].passcode").find.saveAs("code"))
+      .check(jsonPath("$..passcodes[-1:].passcode").find.saveAs("code"))
       .check(status.is(200))
 
   val postVerificationFrontend: HttpRequestBuilder =

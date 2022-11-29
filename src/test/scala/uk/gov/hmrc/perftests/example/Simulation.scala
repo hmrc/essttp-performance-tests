@@ -130,7 +130,7 @@ class Simulation extends PerformanceTestRunner {
     "Email Confirmation Page"
   ).withRequests(getEmailCallback, getEmailConfirmationPage)
 
-  setup("confirmation-page", "Confirmation Page") withRequests (getSubmitArrangement, getConfirmationPage)
+  setup("confirmation-page", "Confirmation Page").withRequests(getSubmitArrangement, getConfirmationPage)
 
   runSimulation()
 
