@@ -21,13 +21,21 @@ import uk.gov.hmrc.perftests.example.Requests._
 
 class Simulation extends PerformanceTestRunner {
 
-  setup("start-page-business", "Start Page - Business").withRequests(getStartPage, postStartPageBusiness)
+  setup("start-page-business-epaye", "Start Page - Business - EPAYE").withRequests(getStartPage, postStartPageBusinessEpaye)
 
-  setup("start-page-individual", "Start Page - Individual").withRequests(getStartPage, postStartPageIndividual)
+  setup("start-page-individual-epaye", "Start Page - Individual - EPAYE").withRequests(getStartPage, postStartPageIndividualEpaye)
 
-  setup("start-page-ineligible", "Start Page - Ineligible").withRequests(getStartPage, postStartPageIneligible)
+  setup("start-page-ineligible-epaye", "Start Page - Ineligible - EPAYE").withRequests(getStartPage, postStartPageIneligibleEpaye)
 
-  setup("bta-page", "BTA Page").withRequests(getBtaPage, getStartBta)
+  setup("start-page-business-vat", "Start Page - Business - VAT").withRequests(getStartPage, postStartPageBusinessVat)
+
+  setup("start-page-individual-vat", "Start Page - Individual - VAT").withRequests(getStartPage, postStartPageIndividualVat)
+
+  setup("start-page-ineligible-vat", "Start Page - Ineligible - VAT").withRequests(getStartPage, postStartPageIneligibleVat)
+
+  setup("bta-page-epaye", "BTA Page - EPAYE").withRequests(getBtaPage, getStartBtaEpaye)
+
+  setup("bta-page-vat", "BTA Page - VAT").withRequests(getBtaPage, getStartBtaVat)
 
   setup(
     "landing-page-eligible",
@@ -35,14 +43,19 @@ class Simulation extends PerformanceTestRunner {
   ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityPass)
 
   setup(
-    "landing-page-ineligible",
+    "landing-page-ineligible-epaye",
     "Landing Page - Ineligible"
-  ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFail)
+  ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailEpaye)
+
+  setup(
+    "landing-page-ineligible-vat",
+    "Landing Page - Ineligible"
+  ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailVat)
 
   setup(
     "detached-url",
     "Detached URL"
-  ).withRequests(getStart, getDetermineTaxId, getDetermineEligibilityPass)
+  ).withRequests(getStart, getLandingPage, getDetermineTaxId, getDetermineEligibilityPass)
 
   setup("ineligible-page", "Ineligible Page") withRequests getIneligiblePage
 
@@ -130,7 +143,9 @@ class Simulation extends PerformanceTestRunner {
     "Email Confirmation Page"
   ).withRequests(getEmailCallback, getEmailConfirmationPage)
 
-  setup("confirmation-page", "Confirmation Page").withRequests(getSubmitArrangement, getConfirmationPage)
+  setup("confirmation-page-epaye", "Confirmation Page - EPAYE").withRequests(getSubmitArrangementEpaye, getConfirmationPage)
+
+  setup("confirmation-page-vat", "Confirmation Page - VAT").withRequests(getSubmitArrangementVat, getConfirmationPage)
 
   runSimulation()
 

@@ -33,7 +33,7 @@ object Requests extends ServicesConfiguration {
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
-  val postStartPageBusiness: HttpRequestBuilder =
+  val postStartPageBusinessEpaye: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey": String)
       .formParam("csrfToken", s"$${csrfToken}")
@@ -41,12 +41,12 @@ object Requests extends ServicesConfiguration {
       .formParam("signInAs", "Organisation")
       .formParam("enrolments[]", "Epaye")
       .formParam("payeDebtTotalAmount", "3000")
-      .formParam("taxReference", "")
+      .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Epaye.Bta")
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/bta-epaye-page").saveAs("btaPage"))
 
-  val postStartPageIndividual: HttpRequestBuilder =
+  val postStartPageIndividualEpaye: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey": String)
       .formParam("csrfToken", s"$${csrfToken}")
@@ -54,12 +54,12 @@ object Requests extends ServicesConfiguration {
       .formParam("signInAs", "Individual")
       .formParam("enrolments[]", "Epaye")
       .formParam("payeDebtTotalAmount", "3000")
-      .formParam("taxReference", "")
+      .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Epaye.DetachedUrl")
       .check(status.is(303))
       .check(header("Location").is(s"$route/epaye/start").saveAs("start"))
 
-  val postStartPageIneligible: HttpRequestBuilder =
+  val postStartPageIneligibleEpaye: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey": String)
       .formParam("csrfToken", s"$${csrfToken}")
@@ -67,21 +67,66 @@ object Requests extends ServicesConfiguration {
       .formParam("signInAs", "Organisation")
       .formParam("enrolments[]", "Epaye")
       .formParam("payeDebtTotalAmount", "3000")
-      .formParam("taxReference", "")
       .formParam("eligibilityErrors[]", "IsMoreThanMaxDebtAllowance")
       .formParam("eligibilityErrors[]", "ExistingTtp")
       .formParam("origin", "Origins.Epaye.Bta")
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/bta-epaye-page").saveAs("btaPage"))
 
+  val postStartPageBusinessVat: HttpRequestBuilder =
+    http("Post Start Page - Business")
+      .post(s"$baseUrl$route/test-only/start-journey": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("taxRegime", "Vat")
+      .formParam("signInAs", "Organisation")
+      .formParam("enrolments[]", "Vat")
+      .formParam("vatDebtTotalAmount", "3000")
+      .formParam("regimeDigitalCorrespondence", "true")
+      .formParam("origin", "Origins.Vat.Bta")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/test-only/bta-vat-page").saveAs("btaPage"))
+
+  val postStartPageIndividualVat: HttpRequestBuilder =
+    http("Post Start Page - Individual")
+      .post(s"$baseUrl$route/test-only/start-journey": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("taxRegime", "Vat")
+      .formParam("signInAs", "Individual")
+      .formParam("enrolments[]", "Vat")
+      .formParam("vatDebtTotalAmount", "3000")
+      .formParam("regimeDigitalCorrespondence", "true")
+      .formParam("origin", "Origins.Vat.DetachedUrl")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/vat/start").saveAs("start"))
+
+  val postStartPageIneligibleVat: HttpRequestBuilder =
+    http("Post Start Page - Ineligible")
+      .post(s"$baseUrl$route/test-only/start-journey": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("taxRegime", "Vat")
+      .formParam("signInAs", "Organisation")
+      .formParam("enrolments[]", "Vat")
+      .formParam("vatDebtTotalAmount", "3000")
+      .formParam("eligibilityErrors[]", "IsMoreThanMaxDebtAllowance")
+      .formParam("eligibilityErrors[]", "ExistingTtp")
+      .formParam("origin", "Origins.Vat.Bta")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/test-only/bta-vat-page").saveAs("btaPage"))
+
   val getBtaPage: HttpRequestBuilder =
     http("Get BTA Page")
       .get(s"$baseUrl$${btaPage}")
       .check(status.is(200))
 
-  val getStartBta: HttpRequestBuilder =
+  val getStartBtaEpaye: HttpRequestBuilder =
     http("Get Start BTA")
       .get(s"$baseUrl$route/test-only/start-journey-epaye-bta": String)
+      .check(status.is(303))
+      .check(header("Location").saveAs("LandingPage"))
+
+  val getStartBtaVat: HttpRequestBuilder =
+    http("Get Start BTA")
+      .get(s"$baseUrl$route/test-only/start-journey-vat-bta": String)
       .check(status.is(303))
       .check(header("Location").saveAs("LandingPage"))
 
@@ -108,11 +153,17 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").is(s"$route/your-bill").saveAs("YourBillPage"))
 
-  val getDetermineEligibilityFail: HttpRequestBuilder =
+  val getDetermineEligibilityFailEpaye: HttpRequestBuilder =
     http("Get Determine Eligibility - Fail")
       .get(s"$baseUrl$${DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/not-eligible-epaye").saveAs("IneligiblePage"))
+
+  val getDetermineEligibilityFailVat: HttpRequestBuilder =
+    http("Get Determine Eligibility - Fail")
+      .get(s"$baseUrl$${DetermineEligibility}")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/not-eligible-vat").saveAs("IneligiblePage"))
 
   val getIneligiblePage: HttpRequestBuilder =
     http("Get Ineligible Page")
@@ -380,11 +431,17 @@ object Requests extends ServicesConfiguration {
       .get(s"$baseUrl$${EmailConfirmationPage}")
       .check(status.is(200))
 
-  val getSubmitArrangement: HttpRequestBuilder =
+  val getSubmitArrangementEpaye: HttpRequestBuilder =
     http("Get Submit Arrangement")
       .get(s"$baseUrl$route/submit-arrangement")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/payment-plan-set-up").saveAs("ConfirmationPage"))
+      .check(header("Location").is(s"$route/epaye-payment-plan-set-up").saveAs("ConfirmationPage"))
+
+  val getSubmitArrangementVat: HttpRequestBuilder =
+    http("Get Submit Arrangement")
+      .get(s"$baseUrl$route/submit-arrangement")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/vat-payment-plan-set-up").saveAs("ConfirmationPage"))
 
   val getConfirmationPage: HttpRequestBuilder =
     http("Get Confirmation Page")
