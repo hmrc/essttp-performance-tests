@@ -20,12 +20,15 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
+import scala.util.Random
 
 object Requests extends ServicesConfiguration {
 
   val baseUrl: String = baseUrlFor("essttp-frontend")
   val emailUrl: String = baseUrlFor("email-verification")
   val route: String   = "/set-up-a-payment-plan"
+
+  def vatId(): String = Random.between(100000000, 999999999).toString
 
   val getStartPage: HttpRequestBuilder =
     http("Get Start Page")
@@ -81,6 +84,7 @@ object Requests extends ServicesConfiguration {
       .formParam("signInAs", "Organisation")
       .formParam("enrolments[]", "Vat")
       .formParam("vatDebtTotalAmount", "3000")
+      .formParam("vatTaxReference", _ => vatId())
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Vat.Bta")
       .check(status.is(303))
@@ -94,6 +98,7 @@ object Requests extends ServicesConfiguration {
       .formParam("signInAs", "Individual")
       .formParam("enrolments[]", "Vat")
       .formParam("vatDebtTotalAmount", "3000")
+      .formParam("vatTaxReference", _ => vatId())
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Vat.DetachedUrl")
       .check(status.is(303))
@@ -107,6 +112,7 @@ object Requests extends ServicesConfiguration {
       .formParam("signInAs", "Organisation")
       .formParam("enrolments[]", "Vat")
       .formParam("vatDebtTotalAmount", "3000")
+      .formParam("vatTaxReference", _ => vatId())
       .formParam("eligibilityErrors[]", "IsMoreThanMaxDebtAllowance")
       .formParam("eligibilityErrors[]", "ExistingTtp")
       .formParam("origin", "Origins.Vat.Bta")
@@ -406,6 +412,11 @@ object Requests extends ServicesConfiguration {
       .get(s"$emailUrl$${VerificationFrontend}")
       .check(status.is(200))
 
+  val getVerificationFrontendLocal: HttpRequestBuilder =
+    http("Get Verification Frontend")
+      .get(s"$${VerificationFrontend}")
+      .check(status.is(200))
+
   val getTestOnlyPasscode: HttpRequestBuilder =
     http("Get Test Only Passcode")
       .get(s"$baseUrl$route/test-only/email-verification-passcodes")
@@ -418,11 +429,17 @@ object Requests extends ServicesConfiguration {
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("passcode", s"$${code}")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/email-callback").saveAs("EmailCallback"))
+
+  val postVerificationFrontendLocal: HttpRequestBuilder =
+    http("Post Verification Frontend")
+      .post(s"$${VerificationFrontend}")
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("passcode", s"$${code}")
+      .check(status.is(500))
 
   val getEmailCallback: HttpRequestBuilder =
     http("Get Email Callback")
-      .get(s"$baseUrl$${EmailCallback}")
+      .get(s"$baseUrl$route/email-callback")
       .check(status.is(303))
       .check(header("Location").is(s"$route/email-address-confirmed").saveAs("EmailConfirmationPage"))
 

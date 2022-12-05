@@ -136,7 +136,10 @@ class Simulation extends PerformanceTestRunner {
   setup(
     "verification-frontend",
     "Verification Frontend"
-  ).withRequests(getEmailVerification, getVerificationFrontend, getTestOnlyPasscode, postVerificationFrontend)
+  ).withRequests(getEmailVerification,
+    if (runLocal == true) {getVerificationFrontendLocal} else getVerificationFrontend,
+    getTestOnlyPasscode,
+    if (runLocal == true) {postVerificationFrontendLocal} else postVerificationFrontend)
 
   setup(
     "email-confirmation-page",
