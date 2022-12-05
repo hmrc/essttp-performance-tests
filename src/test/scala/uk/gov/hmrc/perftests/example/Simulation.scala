@@ -21,17 +21,22 @@ import uk.gov.hmrc.perftests.example.Requests._
 
 class Simulation extends PerformanceTestRunner {
 
-  setup("start-page-business-epaye", "Start Page - Business - EPAYE").withRequests(getStartPage, postStartPageBusinessEpaye)
+  setup("start-page-business-epaye", "Start Page - Business - EPAYE")
+    .withRequests(getStartPage, postStartPageBusinessEpaye)
 
-  setup("start-page-individual-epaye", "Start Page - Individual - EPAYE").withRequests(getStartPage, postStartPageIndividualEpaye)
+  setup("start-page-individual-epaye", "Start Page - Individual - EPAYE")
+    .withRequests(getStartPage, postStartPageIndividualEpaye)
 
-  setup("start-page-ineligible-epaye", "Start Page - Ineligible - EPAYE").withRequests(getStartPage, postStartPageIneligibleEpaye)
+  setup("start-page-ineligible-epaye", "Start Page - Ineligible - EPAYE")
+    .withRequests(getStartPage, postStartPageIneligibleEpaye)
 
   setup("start-page-business-vat", "Start Page - Business - VAT").withRequests(getStartPage, postStartPageBusinessVat)
 
-  setup("start-page-individual-vat", "Start Page - Individual - VAT").withRequests(getStartPage, postStartPageIndividualVat)
+  setup("start-page-individual-vat", "Start Page - Individual - VAT")
+    .withRequests(getStartPage, postStartPageIndividualVat)
 
-  setup("start-page-ineligible-vat", "Start Page - Ineligible - VAT").withRequests(getStartPage, postStartPageIneligibleVat)
+  setup("start-page-ineligible-vat", "Start Page - Ineligible - VAT")
+    .withRequests(getStartPage, postStartPageIneligibleVat)
 
   setup("bta-page-epaye", "BTA Page - EPAYE").withRequests(getBtaPage, getStartBtaEpaye)
 
@@ -136,17 +141,22 @@ class Simulation extends PerformanceTestRunner {
   setup(
     "verification-frontend",
     "Verification Frontend"
-  ).withRequests(getEmailVerification,
-    if (runLocal == true) {getVerificationFrontendLocal} else getVerificationFrontend,
+  ).withRequests(
+    getEmailVerification,
+    if (runLocal == true) { getVerificationFrontendLocal }
+    else getVerificationFrontend,
     getTestOnlyPasscode,
-    if (runLocal == true) {postVerificationFrontendLocal} else postVerificationFrontend)
+    if (runLocal == true) { postVerificationFrontendLocal }
+    else postVerificationFrontend
+  )
 
   setup(
     "email-confirmation-page",
     "Email Confirmation Page"
   ).withRequests(getEmailCallback, getEmailConfirmationPage)
 
-  setup("confirmation-page-epaye", "Confirmation Page - EPAYE").withRequests(getSubmitArrangementEpaye, getConfirmationPage)
+  setup("confirmation-page-epaye", "Confirmation Page - EPAYE")
+    .withRequests(getSubmitArrangementEpaye, getConfirmationPage)
 
   setup("confirmation-page-vat", "Confirmation Page - VAT").withRequests(getSubmitArrangementVat, getConfirmationPage)
 

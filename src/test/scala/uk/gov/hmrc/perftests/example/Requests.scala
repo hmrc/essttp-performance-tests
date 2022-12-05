@@ -24,9 +24,9 @@ import scala.util.Random
 
 object Requests extends ServicesConfiguration {
 
-  val baseUrl: String = baseUrlFor("essttp-frontend")
+  val baseUrl: String  = baseUrlFor("essttp-frontend")
   val emailUrl: String = baseUrlFor("email-verification")
-  val route: String   = "/set-up-a-payment-plan"
+  val route: String    = "/set-up-a-payment-plan"
 
   def vatId(): String = Random.between(100000000, 999999999).toString
 
