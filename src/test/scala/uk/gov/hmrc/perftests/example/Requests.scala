@@ -430,13 +430,6 @@ object Requests extends ServicesConfiguration {
       .formParam("passcode", s"$${code}")
       .check(status.is(303))
 
-  val postVerificationFrontendLocal: HttpRequestBuilder =
-    http("Post Verification Frontend")
-      .post(s"$${VerificationFrontend}")
-      .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("passcode", s"$${code}")
-      .check(status.is(500))
-
   val getEmailCallback: HttpRequestBuilder =
     http("Get Email Callback")
       .get(s"$baseUrl$route/email-callback")

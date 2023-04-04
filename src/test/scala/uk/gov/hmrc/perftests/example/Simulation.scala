@@ -146,8 +146,7 @@ class Simulation extends PerformanceTestRunner {
     if (runLocal == true) { getVerificationFrontendLocal }
     else getVerificationFrontend,
     getTestOnlyPasscode,
-    if (runLocal == true) { postVerificationFrontendLocal }
-    else postVerificationFrontend
+    postVerificationFrontend
   )
 
   setup(
