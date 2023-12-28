@@ -34,7 +34,7 @@ It might be useful to try the journey with one user to check that everything wor
 performance test
 
 ```
-sbt gatling:test
+sbt -Dperftest.runSmokeTest=true -DrunLocal=true gatling:test
 ```
 
 #### Running the performance test
