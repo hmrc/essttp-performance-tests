@@ -46,7 +46,7 @@ object Requests extends ServicesConfiguration {
       .formParam("payeDebtTotalAmount", "3000")
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Epaye.Bta")
-      .check(status.is(303))
+      .check(status.is(200))
       .check(header("Location").is(s"$route/test-only/bta-epaye-page").saveAs("btaPage"))
 
   val postStartPageIndividualEpaye: HttpRequestBuilder =
@@ -59,7 +59,7 @@ object Requests extends ServicesConfiguration {
       .formParam("payeDebtTotalAmount", "3000")
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Epaye.DetachedUrl")
-      .check(status.is(303))
+      .check(status.is(200))
       .check(header("Location").is(s"$route/epaye/start").saveAs("start"))
 
   val postStartPageIneligibleEpaye: HttpRequestBuilder =
@@ -73,7 +73,7 @@ object Requests extends ServicesConfiguration {
       .formParam("eligibilityErrors[]", "IsMoreThanMaxDebtAllowance")
       .formParam("eligibilityErrors[]", "ExistingTtp")
       .formParam("origin", "Origins.Epaye.Bta")
-      .check(status.is(303))
+      .check(status.is(200))
       .check(header("Location").is(s"$route/test-only/bta-epaye-page").saveAs("btaPage"))
 
   val postStartPageBusinessVat: HttpRequestBuilder =
@@ -87,7 +87,7 @@ object Requests extends ServicesConfiguration {
       .formParam("vatTaxReference", _ => vatId())
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Vat.Bta")
-      .check(status.is(303))
+      .check(status.is(200))
       .check(header("Location").is(s"$route/test-only/bta-vat-page").saveAs("btaPage"))
 
   val postStartPageIndividualVat: HttpRequestBuilder =
@@ -101,7 +101,7 @@ object Requests extends ServicesConfiguration {
       .formParam("vatTaxReference", _ => vatId())
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("origin", "Origins.Vat.DetachedUrl")
-      .check(status.is(303))
+      .check(status.is(200))
       .check(header("Location").is(s"$route/vat/start").saveAs("start"))
 
   val postStartPageIneligibleVat: HttpRequestBuilder =
@@ -116,7 +116,7 @@ object Requests extends ServicesConfiguration {
       .formParam("eligibilityErrors[]", "IsMoreThanMaxDebtAllowance")
       .formParam("eligibilityErrors[]", "ExistingTtp")
       .formParam("origin", "Origins.Vat.Bta")
-      .check(status.is(303))
+      .check(status.is(200))
       .check(header("Location").is(s"$route/test-only/bta-vat-page").saveAs("btaPage"))
 
   val getBtaPage: HttpRequestBuilder =
