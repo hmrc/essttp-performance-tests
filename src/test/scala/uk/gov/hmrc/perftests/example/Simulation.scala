@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,25 +22,46 @@ import uk.gov.hmrc.perftests.example.Requests._
 class Simulation extends PerformanceTestRunner {
 
   setup("start-page-business-epaye", "Start Page - Business - EPAYE")
-    .withRequests(getStartPage, postStartPageBusinessEpaye)
+    .withRequests(getInitialPage, postInitialPageEpaye, getEpayeStartPage, postStartPageBusinessEpaye)
 
   setup("start-page-individual-epaye", "Start Page - Individual - EPAYE")
-    .withRequests(getStartPage, postStartPageIndividualEpaye)
+    .withRequests(getInitialPage, postInitialPageEpaye, getEpayeStartPage, postStartPageIndividualEpaye)
 
   setup("start-page-ineligible-epaye", "Start Page - Ineligible - EPAYE")
-    .withRequests(getStartPage, postStartPageIneligibleEpaye)
+    .withRequests(getInitialPage, postInitialPageEpaye, getEpayeStartPage, postStartPageIneligibleEpaye)
 
-  setup("start-page-business-vat", "Start Page - Business - VAT").withRequests(getStartPage, postStartPageBusinessVat)
+
+
+  setup("start-page-business-sa", "Start Page - Business - SA")
+    .withRequests(getInitialPage, postInitialPageSa, getSaStartPage, postStartPageBusinessSa)
+
+  setup("start-page-individual-sa", "Start Page - Individual - SA")
+    .withRequests(getInitialPage, postInitialPageSa, getSaStartPage, postStartPageIndividualSa)
+
+  setup("start-page-ineligible-sa", "Start Page - Ineligible - SA")
+    .withRequests(getInitialPage, postInitialPageSa, getSaStartPage, postStartPageIneligibleSa)
+
+
+
+  setup("start-page-business-vat", "Start Page - Business - VAT")
+    .withRequests(getInitialPage, postInitialPageVat, getVatStartPage, postStartPageBusinessVat)
 
   setup("start-page-individual-vat", "Start Page - Individual - VAT")
-    .withRequests(getStartPage, postStartPageIndividualVat)
+    .withRequests(getInitialPage, postInitialPageVat, getVatStartPage, postStartPageIndividualVat)
 
   setup("start-page-ineligible-vat", "Start Page - Ineligible - VAT")
-    .withRequests(getStartPage, postStartPageIneligibleVat)
+    .withRequests(getInitialPage, postInitialPageVat, getVatStartPage, postStartPageIneligibleVat)
 
-  setup("bta-page-epaye", "BTA Page - EPAYE").withRequests(getBtaPage, getStartBtaEpaye)
 
-  setup("bta-page-vat", "BTA Page - VAT").withRequests(getBtaPage, getStartBtaVat)
+
+  setup("bta-page-epaye", "BTA Page - EPAYE")
+    .withRequests(getBtaPage, getStartBtaEpaye)
+
+  setup("bta-page-sa", "BTA Page - SA")
+    .withRequests(getBtaPage, getStartBtaSa)
+
+  setup("bta-page-vat", "BTA Page - VAT")
+    .withRequests(getBtaPage, getStartBtaVat)
 
   setup(
     "landing-page-eligible",
@@ -51,6 +72,11 @@ class Simulation extends PerformanceTestRunner {
     "landing-page-ineligible-epaye",
     "Landing Page - Ineligible"
   ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailEpaye)
+
+  setup(
+    "landing-page-ineligible-sa",
+    "Landing Page - Ineligible"
+  ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailSa)
 
   setup(
     "landing-page-ineligible-vat",
@@ -96,7 +122,8 @@ class Simulation extends PerformanceTestRunner {
     "Which Day Page"
   ).withRequests(getWhichDayPage, postWhichDayPage, getRetrieveStartDates, getDetermineQuotes)
 
-  setup("how-many-months-page", "How Many Months Page").withRequests(getHowManyMonthsPage, postHowManyMonthsPage)
+  setup("how-many-months-page", "How Many Months Page")
+    .withRequests(getHowManyMonthsPage, postHowManyMonthsPage)
 
   setup(
     "check-payment-plan-page",
@@ -157,7 +184,12 @@ class Simulation extends PerformanceTestRunner {
   setup("confirmation-page-epaye", "Confirmation Page - EPAYE")
     .withRequests(getSubmitArrangementEpaye, getConfirmationPage)
 
-  setup("confirmation-page-vat", "Confirmation Page - VAT").withRequests(getSubmitArrangementVat, getConfirmationPage)
+  setup("confirmation-page-vat", "Confirmation Page - VAT")
+    .withRequests(getSubmitArrangementVat, getConfirmationPage)
+
+  setup("confirmation-page-sa", "Confirmation Page - SA")
+    .withRequests(getSubmitArrangementSa, getConfirmationPage)
+
 
   runSimulation()
 
