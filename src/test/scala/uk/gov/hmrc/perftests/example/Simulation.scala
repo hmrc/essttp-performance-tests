@@ -92,6 +92,8 @@ class Simulation extends PerformanceTestRunner {
 
   setup("your-bill-page", "Your Bill Page").withRequests(getYourBillPage, postYourBillPage)
 
+  setup("why-unable-to-pay", "Why unable to pay Page").withRequests(getWhyUnablePage, postWhyUnablePage)
+
   setup(
     "can-pay-upfront-page-yes",
     "Can Pay Upfront Page - Yes"

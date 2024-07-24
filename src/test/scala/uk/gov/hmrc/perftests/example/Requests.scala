@@ -333,17 +333,30 @@ object Requests extends ServicesConfiguration {
       .post(s"$baseUrl$${YourBillPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/can-you-make-an-upfront-payment").saveAs("CanUpfrontPage"))
+
+  val getWhyUnablePage: HttpRequestBuilder =
+    http("Get Why Unable to Pay Page")
+      .get(s"$baseUrl$route/why-are-you-unable-to-pay-in-full")
+      .check(status.is(200))
+      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+
+  val postWhyUnablePage: HttpRequestBuilder =
+    http("Post Why Unable to Pay Page - None of above")
+      .post(s"$baseUrl$route/why-are-you-unable-to-pay-in-full": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("WhyCannotPayInFull[]", "other")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/can-you-make-an-upfront-payment").saveAs("CanYouMakeUpfrontPage"))
 
   val getCanUpfrontPage: HttpRequestBuilder =
     http("Get Can You Pay Upfront Page")
-      .get(s"$baseUrl$${CanUpfrontPage}")
+      .get(s"$baseUrl$route/can-you-make-an-upfront-payment")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postCanUpfrontPageYes: HttpRequestBuilder =
     http("Post Can You Pay Upfront Page - Yes")
-      .post(s"$baseUrl$${CanUpfrontPage}": String)
+      .post(s"$baseUrl$route/can-you-make-an-upfront-payment": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("CanYouMakeAnUpFrontPayment", "Yes")
       .check(status.is(303))
@@ -351,7 +364,7 @@ object Requests extends ServicesConfiguration {
 
   val postCanUpfrontPageNo: HttpRequestBuilder =
     http("Post Can You Pay Upfront Page - No")
-      .post(s"$baseUrl$${CanUpfrontPage}": String)
+      .post(s"$baseUrl$route/can-you-make-an-upfront-payment": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("CanYouMakeAnUpFrontPayment", "No")
       .check(status.is(303))
