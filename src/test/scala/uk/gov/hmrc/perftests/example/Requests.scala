@@ -407,7 +407,7 @@ object Requests extends ServicesConfiguration {
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postPayInSixPageYes: HttpRequestBuilder =
-    http("Get Can you pay in 6 months Page")
+    http("Post Can you pay in 6 months Page")
       .post(s"$baseUrl$route/paying-within-six-months")
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("CanPayWithinSixMonths", "Yes")
