@@ -399,17 +399,31 @@ object Requests extends ServicesConfiguration {
     http("Get Determine Affordability")
       .get(s"$baseUrl$${DetermineAffordability}")
       .check(status.is(303))
+
+  val getPayInSixPage: HttpRequestBuilder =
+    http("Get Can you pay in 6 months Page")
+      .get(s"$baseUrl$route/paying-within-six-months")
+      .check(status.is(200))
+      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+
+  val postPayInSixPageYes: HttpRequestBuilder =
+    http("Get Can you pay in 6 months Page")
+      .post(s"$baseUrl$route/paying-within-six-months")
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("CanPayWithinSixMonths", "Yes")
+      .check(status.is(303))
       .check(header("Location").is(s"$route/how-much-can-you-pay-each-month").saveAs("HowMuchMonthlyPage"))
+
 
   val getHowMuchMonthlyPage: HttpRequestBuilder =
     http("Get How Much Can You Pay Monthly Page")
-      .get(s"$baseUrl$${HowMuchMonthlyPage}")
+      .get(s"$baseUrl$route/how-much-can-you-pay-each-month")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postHowMuchMonthlyPage: HttpRequestBuilder =
     http("Post How Much Can You Pay Monthly Page")
-      .post(s"$baseUrl$${HowMuchMonthlyPage}": String)
+      .post(s"$baseUrl$route/how-much-can-you-pay-each-month": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .formParam("MonthlyPaymentAmount", "2000")
       .check(status.is(303))
