@@ -400,9 +400,24 @@ object Requests extends ServicesConfiguration {
       .get(s"$baseUrl$${DetermineAffordability}")
       .check(status.is(303))
 
-  val getPayInSixPage: HttpRequestBuilder =
-    http("Get Can you pay in 6 months Page")
+  val getPayInSixPageSA: HttpRequestBuilder =
+    http("Get Can you pay in 6 months Page - SA")
       .get(s"$baseUrl$route/paying-within-six-months")
+      .queryParam("regime", "sa")
+      .check(status.is(200))
+      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+
+  val getPayInSixPageVat: HttpRequestBuilder =
+    http("Get Can you pay in 6 months Page - VAT")
+      .get(s"$baseUrl$route/paying-within-six-months")
+      .queryParam("regime", "vat")
+      .check(status.is(200))
+      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+
+  val getPayInSixPageEpaye: HttpRequestBuilder =
+    http("Get Can you pay in 6 months Page - EPAYE")
+      .get(s"$baseUrl$route/paying-within-six-months")
+      .queryParam("regime", "epaye")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
