@@ -75,6 +75,9 @@ class Simulation extends PerformanceTestRunner {
   setup("bta-page-vat", "BTA Page - VAT")
     .withRequests(getBtaPage, getStartBtaVat)
 
+  setup("pta-page-simp", "PTA Page - Simple Assessment")
+    .withRequests(getPtaPage, getStartPtaSimp)
+
 
   setup(
     "landing-page-eligible",
@@ -99,7 +102,7 @@ class Simulation extends PerformanceTestRunner {
   setup(
     "landing-page-ineligible-simp",
     "Landing Page - Ineligible"
-  ).withRequests(getStart, getLandingPage, getDetermineTaxId, getDetermineEligibilityFailSimp)
+  ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailSimp)
 
   setup(
     "detached-url",

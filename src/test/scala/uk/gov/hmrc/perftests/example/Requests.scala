@@ -29,6 +29,9 @@ object Requests extends ServicesConfiguration {
   val route: String    = "/set-up-a-payment-plan"
 
   def vatId(): String = Random.between(100000000, 999999999).toString
+  def nino(): String = "AB" + Random.between(100000, 999999).toString + "C"
+
+
 
   val getInitialPage: HttpRequestBuilder =
     http("Get Start Page")
@@ -338,7 +341,7 @@ object Requests extends ServicesConfiguration {
       .formParam("credId", "")
       .formParam("signInAs", "Organisation")
       .formParam("confidenceLevel", "50")
-      .formParam("nino", "AB123456C")
+      .formParam("nino", _ => nino())
       .formParam("simpDebtTotalAmount", "10000")
       .formParam("interestAmount", "0")
       .formParam("mainTrans", "2000")
@@ -360,7 +363,7 @@ object Requests extends ServicesConfiguration {
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
-      .formParam("nino", "AB123456C")
+      .formParam("nino", _ => nino())
       .formParam("simpDebtTotalAmount", "10000")
       .formParam("interestAmount", "0")
       .formParam("mainTrans", "2000")
@@ -382,7 +385,7 @@ object Requests extends ServicesConfiguration {
       .formParam("credId", "")
       .formParam("signInAs", "Organisation")
       .formParam("confidenceLevel", "50")
-      .formParam("nino", "AB123456C")
+      .formParam("nino", _ => nino())
       .formParam("simpDebtTotalAmount", "10000")
       .formParam("interestAmount", "0")
       .formParam("mainTrans", "2000")
@@ -395,14 +398,19 @@ object Requests extends ServicesConfiguration {
       .formParam("useChargeReference", "")
       .formParam("planMinLength", "1")
       .formParam("planMaxLength", "36")
-      .formParam("origin", "Origins.Simp.DetachedUrl")
+      .formParam("origin", "Origins.Simp.Pta")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/simp/start").saveAs("start"))
+      .check(header("Location").is(s"$route/test-only/pta-simp").saveAs("ptaPage"))
 
 
   val getBtaPage: HttpRequestBuilder =
     http("Get BTA Page")
       .get(s"$baseUrl$${btaPage}")
+      .check(status.is(200))
+
+  val getPtaPage: HttpRequestBuilder =
+    http("Get PTA Page")
+      .get(s"$baseUrl$${ptaPage}")
       .check(status.is(200))
 
   val getStartBtaEpaye: HttpRequestBuilder =
@@ -420,6 +428,12 @@ object Requests extends ServicesConfiguration {
   val getStartBtaSa: HttpRequestBuilder =
     http("Get Start BTA")
       .get(s"$baseUrl$route/test-only/start-journey-sa-bta": String)
+      .check(status.is(303))
+      .check(header("Location").saveAs("LandingPage"))
+
+  val getStartPtaSimp: HttpRequestBuilder =
+    http("Get Start PTA")
+      .get(s"$baseUrl$route/test-only/start-journey-simp-pta": String)
       .check(status.is(303))
       .check(header("Location").saveAs("LandingPage"))
 
@@ -804,7 +818,7 @@ object Requests extends ServicesConfiguration {
     http("Get Submit Arrangement")
       .get(s"$baseUrl$route/submit-arrangement")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/simp-payment-plan-set-up").saveAs("ConfirmationPage"))
+      .check(header("Location").is(s"$route/simple-assessment-payment-plan-set-up").saveAs("ConfirmationPage"))
 
   val getConfirmationPage: HttpRequestBuilder =
     http("Get Confirmation Page")
