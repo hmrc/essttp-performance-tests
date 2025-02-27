@@ -54,6 +54,18 @@ class Simulation extends PerformanceTestRunner {
 
 
 
+
+  setup("start-page-business-simp", "Start Page - Business - Simple Assessment")
+    .withRequests(getInitialPage, postInitialPageSimp, getSimpStartPage, postStartPageBusinessSimp)
+
+  setup("start-page-individual-simp", "Start Page - Individual - Simple Assessment")
+    .withRequests(getInitialPage, postInitialPageSimp, getSimpStartPage, postStartPageIndividualSimp)
+
+  setup("start-page-ineligible-simp", "Start Page - Ineligible - Simple Assessment")
+    .withRequests(getInitialPage, postInitialPageSimp, getSimpStartPage, postStartPageIneligibleSimp)
+
+
+
   setup("bta-page-epaye", "BTA Page - EPAYE")
     .withRequests(getBtaPage, getStartBtaEpaye)
 
@@ -62,6 +74,7 @@ class Simulation extends PerformanceTestRunner {
 
   setup("bta-page-vat", "BTA Page - VAT")
     .withRequests(getBtaPage, getStartBtaVat)
+
 
   setup(
     "landing-page-eligible",
@@ -82,6 +95,11 @@ class Simulation extends PerformanceTestRunner {
     "landing-page-ineligible-vat",
     "Landing Page - Ineligible"
   ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailVat)
+
+  setup(
+    "landing-page-ineligible-simp",
+    "Landing Page - Ineligible"
+  ).withRequests(getStart, getLandingPage, getDetermineTaxId, getDetermineEligibilityFailSimp)
 
   setup(
     "detached-url",
@@ -195,6 +213,9 @@ class Simulation extends PerformanceTestRunner {
 
   setup("confirmation-page-sa", "Confirmation Page - SA")
     .withRequests(getSubmitArrangementSa, getConfirmationPage)
+
+  setup("confirmation-page-simp", "Confirmation Page - Simp")
+    .withRequests(getSubmitArrangementSimp, getConfirmationPage)
 
 
   runSimulation()

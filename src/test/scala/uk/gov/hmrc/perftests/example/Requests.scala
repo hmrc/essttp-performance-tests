@@ -60,6 +60,14 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/start-journey-vat").saveAs("VatStartPage"))
 
+  val postInitialPageSimp: HttpRequestBuilder =
+    http("Post Initial Page - Simple Assessment")
+      .post(s"$baseUrl$route/test-only/tax-regime": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("taxRegime", "SIMP")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/test-only/start-journey-simp").saveAs("SimpStartPage"))
+
   val getEpayeStartPage: HttpRequestBuilder =
     http("Get EPAYE Start Page")
       .get(s"$baseUrl$${EpayeStartPage}")
@@ -73,6 +81,11 @@ object Requests extends ServicesConfiguration {
   val getVatStartPage: HttpRequestBuilder =
     http("Get VAT Start Page")
       .get(s"$baseUrl$${VatStartPage}")
+      .check(status.is(200))
+
+  val getSimpStartPage: HttpRequestBuilder =
+    http("Get Simple Assessment Start Page")
+      .get(s"$baseUrl$${SimpStartPage}")
       .check(status.is(200))
 
   val postStartPageBusinessEpaye: HttpRequestBuilder =
@@ -318,6 +331,75 @@ object Requests extends ServicesConfiguration {
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/bta-sa-page").saveAs("btaPage"))
 
+  val postStartPageBusinessSimp: HttpRequestBuilder =
+    http("Post Start Page - Business")
+      .post(s"$baseUrl$route/test-only/start-journey-simp": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("credId", "")
+      .formParam("signInAs", "Organisation")
+      .formParam("confidenceLevel", "50")
+      .formParam("nino", "AB123456C")
+      .formParam("simpDebtTotalAmount", "10000")
+      .formParam("interestAmount", "0")
+      .formParam("mainTrans", "2000")
+      .formParam("subTrans", "1000")
+      .formParam("regimeDigitalCorrespondence", "true")
+      .formParam("emailAddressPresent", "true")
+      .formParam("isInterestBearingCharge", "")
+      .formParam("useChargeReference", "")
+      .formParam("planMinLength", "1")
+      .formParam("planMaxLength", "36")
+      .formParam("origin", "Origins.Simp.DetachedUrl")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/simp/start").saveAs("start"))
+
+  val postStartPageIndividualSimp: HttpRequestBuilder =
+    http("Post Start Page - Individual")
+      .post(s"$baseUrl$route/test-only/start-journey-simp": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("credId", "")
+      .formParam("signInAs", "Individual")
+      .formParam("confidenceLevel", "50")
+      .formParam("nino", "AB123456C")
+      .formParam("simpDebtTotalAmount", "10000")
+      .formParam("interestAmount", "0")
+      .formParam("mainTrans", "2000")
+      .formParam("subTrans", "1000")
+      .formParam("regimeDigitalCorrespondence", "true")
+      .formParam("emailAddressPresent", "true")
+      .formParam("isInterestBearingCharge", "")
+      .formParam("useChargeReference", "")
+      .formParam("planMinLength", "1")
+      .formParam("planMaxLength", "36")
+      .formParam("origin", "Origins.Simp.DetachedUrl")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/simp/start").saveAs("start"))
+
+  val postStartPageIneligibleSimp: HttpRequestBuilder =
+    http("Post Start Page - Ineligible")
+      .post(s"$baseUrl$route/test-only/start-journey-simp": String)
+      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("credId", "")
+      .formParam("signInAs", "Organisation")
+      .formParam("confidenceLevel", "50")
+      .formParam("nino", "AB123456C")
+      .formParam("simpDebtTotalAmount", "10000")
+      .formParam("interestAmount", "0")
+      .formParam("mainTrans", "2000")
+      .formParam("subTrans", "1000")
+      .formParam("regimeDigitalCorrespondence", "true")
+      .formParam("emailAddressPresent", "true")
+      .formParam("eligibilityErrors[]", "IsMoreThanMaxDebtAllowance")
+      .formParam("eligibilityErrors[]", "ExistingTtp")
+      .formParam("isInterestBearingCharge", "")
+      .formParam("useChargeReference", "")
+      .formParam("planMinLength", "1")
+      .formParam("planMaxLength", "36")
+      .formParam("origin", "Origins.Simp.DetachedUrl")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/simp/start").saveAs("start"))
+
+
   val getBtaPage: HttpRequestBuilder =
     http("Get BTA Page")
       .get(s"$baseUrl$${btaPage}")
@@ -381,6 +463,12 @@ object Requests extends ServicesConfiguration {
       .get(s"$baseUrl$${DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/not-eligible-sa").saveAs("IneligiblePage"))
+
+  val getDetermineEligibilityFailSimp: HttpRequestBuilder =
+    http("Get Determine Eligibility - Fail")
+      .get(s"$baseUrl$${DetermineEligibility}")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/not-eligible-simple-assessment").saveAs("IneligiblePage"))
 
   val getIneligiblePage: HttpRequestBuilder =
     http("Get Ineligible Page")
@@ -711,6 +799,12 @@ object Requests extends ServicesConfiguration {
       .get(s"$baseUrl$route/submit-arrangement")
       .check(status.is(303))
       .check(header("Location").is(s"$route/sa-payment-plan-set-up").saveAs("ConfirmationPage"))
+
+  val getSubmitArrangementSimp: HttpRequestBuilder =
+    http("Get Submit Arrangement")
+      .get(s"$baseUrl$route/submit-arrangement")
+      .check(status.is(303))
+      .check(header("Location").is(s"$route/simp-payment-plan-set-up").saveAs("ConfirmationPage"))
 
   val getConfirmationPage: HttpRequestBuilder =
     http("Get Confirmation Page")
