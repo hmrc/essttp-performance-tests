@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,14 +137,14 @@ class Simulation extends PerformanceTestRunner {
   ).withRequests(getCheckPaymentPlanPage, postCheckPaymentPlanPage)
 
   setup(
-    "about-your-bank-account-page-business",
-    "About Your Bank Account Page - Business"
-  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageBusiness)
+    "about-your-bank-account-page-not-sole-sig",
+    "About Your Bank Account Page - Not Sole Signatory"
+  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageNotSoleSig)
 
   setup(
-    "about-your-bank-account-page-personal",
-    "About Your Bank Account Page - Personal"
-  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPagePersonal)
+    "about-your-bank-account-page-sole-sig",
+    "About Your Bank Account Page - Sole Signatory"
+  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageSoleSig)
 
   setup(
     "setup-direct-debit-page-business",

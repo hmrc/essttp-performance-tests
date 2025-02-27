@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,14 +79,21 @@ object Requests extends ServicesConfiguration {
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
       .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("taxRegime", "Epaye")
+      .formParam("credId", "")
       .formParam("signInAs", "Organisation")
+      .formParam("confidenceLevel", "50")
+      .formParam("nino", "AB123456C")
       .formParam("enrolments[]", "Epaye")
       .formParam("payeDebtTotalAmount", "10000")
+      .formParam("interestAmount", "0")
+      .formParam("payeTaxReference", "")
+      .formParam("mainTrans", "2000")
+      .formParam("subTrans", "1000")
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("emailAddressPresent", "true")
       .formParam("isInterestBearingCharge", "")
       .formParam("useChargeReference", "")
+      .formParam("ddInProgress", "")
       .formParam("planMinLength", "1")
       .formParam("planMaxLength", "12")
       .formParam("origin", "Origins.Epaye.Bta")
@@ -97,14 +104,21 @@ object Requests extends ServicesConfiguration {
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
       .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("taxRegime", "Epaye")
+      .formParam("credId", "")
       .formParam("signInAs", "Individual")
+      .formParam("confidenceLevel", "50")
+      .formParam("nino", "AB123456C")
       .formParam("enrolments[]", "Epaye")
       .formParam("payeDebtTotalAmount", "10000")
+      .formParam("interestAmount", "0")
+      .formParam("payeTaxReference", "")
+      .formParam("mainTrans", "2000")
+      .formParam("subTrans", "1000")
       .formParam("regimeDigitalCorrespondence", "true")
       .formParam("emailAddressPresent", "true")
       .formParam("isInterestBearingCharge", "")
       .formParam("useChargeReference", "")
+      .formParam("ddInProgress", "")
       .formParam("planMinLength", "1")
       .formParam("planMaxLength", "12")
       .formParam("origin", "Origins.Epaye.DetachedUrl")
@@ -496,7 +510,7 @@ object Requests extends ServicesConfiguration {
       .post(s"$baseUrl$${CheckPlanPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/about-your-bank-account").saveAs("AboutYourBankAccountPage"))
+      .check(header("Location").is(s"$route/check-you-can-set-up-a-direct-debit").saveAs("AboutYourBankAccountPage"))
 
   val getAboutYourBankAccountPage: HttpRequestBuilder =
     http("Get About Your Bank Account Page")
@@ -504,23 +518,21 @@ object Requests extends ServicesConfiguration {
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
-  val postAboutYourBankAccountPageBusiness: HttpRequestBuilder =
-    http("Post About Your Bank Account Page - Business")
+  val postAboutYourBankAccountPageSoleSig: HttpRequestBuilder =
+    http("Post About Your Bank Account Page - Sole Signatory")
       .post(s"$baseUrl$${AboutYourBankAccountPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("typeOfAccount", "Business")
       .formParam("isSoleSignatory", "Yes")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/set-up-direct-debit").saveAs("DirectDebitPage"))
+      .check(header("Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
 
-  val postAboutYourBankAccountPagePersonal: HttpRequestBuilder =
-    http("Post About Your Bank Account Page - Personal")
+  val postAboutYourBankAccountPageNotSoleSig: HttpRequestBuilder =
+    http("Post About Your Bank Account Page - Not Sole Signatory")
       .post(s"$baseUrl$${AboutYourBankAccountPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("typeOfAccount", "Personal")
       .formParam("isSoleSignatory", "Yes")
       .check(status.is(303))
-      .check(header("Location").is(s"$route/set-up-direct-debit").saveAs("DirectDebitPage"))
+      .check(header("Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
 
   val getSetupDirectDebitPage: HttpRequestBuilder =
     http("Get Setup Direct Debit Page")
@@ -532,6 +544,7 @@ object Requests extends ServicesConfiguration {
     http("Post Setup Direct Debit Page - Business")
       .post(s"$baseUrl$${DirectDebitPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("accountType", "Business")
       .formParam("name", "Lambent Illumination")
       .formParam("sortCode", "207102")
       .formParam("accountNumber", "86563611")
@@ -542,6 +555,7 @@ object Requests extends ServicesConfiguration {
     http("Post Setup Direct Debit Page - Personal")
       .post(s"$baseUrl$${DirectDebitPage}": String)
       .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("accountType", "Personal")
       .formParam("name", "Teddy Dickson")
       .formParam("sortCode", "207102")
       .formParam("accountNumber", "44311655")
