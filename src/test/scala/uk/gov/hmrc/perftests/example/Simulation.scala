@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,18 @@ class Simulation extends PerformanceTestRunner {
 
 
 
+
+  setup("start-page-business-simp", "Start Page - Business - Simple Assessment")
+    .withRequests(getInitialPage, postInitialPageSimp, getSimpStartPage, postStartPageBusinessSimp)
+
+  setup("start-page-individual-simp", "Start Page - Individual - Simple Assessment")
+    .withRequests(getInitialPage, postInitialPageSimp, getSimpStartPage, postStartPageIndividualSimp)
+
+  setup("start-page-ineligible-simp", "Start Page - Ineligible - Simple Assessment")
+    .withRequests(getInitialPage, postInitialPageSimp, getSimpStartPage, postStartPageIneligibleSimp)
+
+
+
   setup("bta-page-epaye", "BTA Page - EPAYE")
     .withRequests(getBtaPage, getStartBtaEpaye)
 
@@ -62,6 +74,10 @@ class Simulation extends PerformanceTestRunner {
 
   setup("bta-page-vat", "BTA Page - VAT")
     .withRequests(getBtaPage, getStartBtaVat)
+
+  setup("pta-page-simp", "PTA Page - Simple Assessment")
+    .withRequests(getPtaPage, getStartPtaSimp)
+
 
   setup(
     "landing-page-eligible",
@@ -82,6 +98,11 @@ class Simulation extends PerformanceTestRunner {
     "landing-page-ineligible-vat",
     "Landing Page - Ineligible"
   ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailVat)
+
+  setup(
+    "landing-page-ineligible-simp",
+    "Landing Page - Ineligible"
+  ).withRequests(getLandingPage, getDetermineTaxId, getDetermineEligibilityFailSimp)
 
   setup(
     "detached-url",
@@ -137,14 +158,14 @@ class Simulation extends PerformanceTestRunner {
   ).withRequests(getCheckPaymentPlanPage, postCheckPaymentPlanPage)
 
   setup(
-    "about-your-bank-account-page-business",
-    "About Your Bank Account Page - Business"
-  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageBusiness)
+    "about-your-bank-account-page-not-sole-sig",
+    "About Your Bank Account Page - Not Sole Signatory"
+  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageNotSoleSig)
 
   setup(
-    "about-your-bank-account-page-personal",
-    "About Your Bank Account Page - Personal"
-  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPagePersonal)
+    "about-your-bank-account-page-sole-sig",
+    "About Your Bank Account Page - Sole Signatory"
+  ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageSoleSig)
 
   setup(
     "setup-direct-debit-page-business",
@@ -195,6 +216,9 @@ class Simulation extends PerformanceTestRunner {
 
   setup("confirmation-page-sa", "Confirmation Page - SA")
     .withRequests(getSubmitArrangementSa, getConfirmationPage)
+
+  setup("confirmation-page-simp", "Confirmation Page - Simp")
+    .withRequests(getSubmitArrangementSimp, getConfirmationPage)
 
 
   runSimulation()
