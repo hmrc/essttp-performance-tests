@@ -6,7 +6,7 @@ import sbt._
 object SbtUpdatesSettings {
 
   lazy val sbtUpdatesSettings = Seq(
-    dependencyUpdatesFailBuild := false,
+    dependencyUpdatesFailBuild := true,
     (Compile / compile) := ((Compile / compile) dependsOn dependencyUpdates).value,
     dependencyUpdatesFilter -= moduleFilter("org.scala-lang"),
     // gatling version determined by hmrc performance-test-runner library
