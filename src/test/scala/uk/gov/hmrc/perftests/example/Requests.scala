@@ -42,7 +42,7 @@ object Requests extends ServicesConfiguration {
   val postInitialPageEpaye: HttpRequestBuilder =
     http("Post Initial Page - EPAYE")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("taxRegime", "Epaye")
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/start-journey-epaye").saveAs("EpayeStartPage"))
@@ -50,7 +50,7 @@ object Requests extends ServicesConfiguration {
   val postInitialPageSa: HttpRequestBuilder =
     http("Post Initial Page - SA")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("taxRegime", "SA")
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/start-journey-sa").saveAs("SaStartPage"))
@@ -58,7 +58,7 @@ object Requests extends ServicesConfiguration {
   val postInitialPageVat: HttpRequestBuilder =
     http("Post Initial Page - VAT")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("taxRegime", "VAT")
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/start-journey-vat").saveAs("VatStartPage"))
@@ -66,35 +66,35 @@ object Requests extends ServicesConfiguration {
   val postInitialPageSimp: HttpRequestBuilder =
     http("Post Initial Page - Simple Assessment")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("taxRegime", "SIMP")
       .check(status.is(303))
       .check(header("Location").is(s"$route/test-only/start-journey-simp").saveAs("SimpStartPage"))
 
   val getEpayeStartPage: HttpRequestBuilder =
     http("Get EPAYE Start Page")
-      .get(s"$baseUrl$${EpayeStartPage}")
+      .get(s"$baseUrl#{EpayeStartPage}")
       .check(status.is(200))
 
   val getSaStartPage: HttpRequestBuilder =
     http("Get SA Start Page")
-      .get(s"$baseUrl$${SaStartPage}")
+      .get(s"$baseUrl#{SaStartPage}")
       .check(status.is(200))
 
   val getVatStartPage: HttpRequestBuilder =
     http("Get VAT Start Page")
-      .get(s"$baseUrl$${VatStartPage}")
+      .get(s"$baseUrl#{VatStartPage}")
       .check(status.is(200))
 
   val getSimpStartPage: HttpRequestBuilder =
     http("Get Simple Assessment Start Page")
-      .get(s"$baseUrl$${SimpStartPage}")
+      .get(s"$baseUrl#{SimpStartPage}")
       .check(status.is(200))
 
   val postStartPageBusinessEpaye: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Organisation")
       .formParam("confidenceLevel", "50")
@@ -121,7 +121,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualEpaye: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
@@ -148,7 +148,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleEpaye: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
@@ -176,7 +176,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageBusinessVat: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-vat": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Organisation")
       .formParam("confidenceLevel", "50")
@@ -205,7 +205,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualVat: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-vat": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
@@ -233,7 +233,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleVat: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-vat": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
@@ -263,7 +263,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageBusinessSa: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-sa": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Organisation")
       .formParam("confidenceLevel", "50")
@@ -293,7 +293,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualSa: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-sa": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
@@ -323,7 +323,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleSa: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-sa": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
@@ -355,7 +355,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageBusinessSimp: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-simp": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Organisation")
       .formParam("confidenceLevel", "50")
@@ -379,7 +379,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualSimp: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-simp": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Individual")
       .formParam("confidenceLevel", "50")
@@ -403,7 +403,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleSimp: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-simp": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("credId", "")
       .formParam("signInAs", "Organisation")
       .formParam("confidenceLevel", "50")
@@ -429,12 +429,12 @@ object Requests extends ServicesConfiguration {
 
   val getBtaPage: HttpRequestBuilder =
     http("Get BTA Page")
-      .get(s"$baseUrl$${btaPage}")
+      .get(s"$baseUrl#{btaPage}")
       .check(status.is(200))
 
   val getPtaPage: HttpRequestBuilder =
     http("Get PTA Page")
-      .get(s"$baseUrl$${ptaPage}")
+      .get(s"$baseUrl#{ptaPage}")
       .check(status.is(200))
 
   val getStartBtaEpaye: HttpRequestBuilder =
@@ -463,13 +463,13 @@ object Requests extends ServicesConfiguration {
 
   val getStart: HttpRequestBuilder =
     http("Get Start")
-      .get(s"$baseUrl$${start}": String)
+      .get(s"$baseUrl#{start}": String)
       .check(status.is(303))
       .check(header("Location").saveAs("LandingPage"))
 
   val getLandingPage: HttpRequestBuilder =
     http("Get Landing Page")
-      .get(s"$${LandingPage}")
+      .get(s"#{LandingPage}")
       .check(status.is(200))
 
   val getDetermineTaxId: HttpRequestBuilder =
@@ -480,49 +480,49 @@ object Requests extends ServicesConfiguration {
 
   val getDetermineEligibilityPass: HttpRequestBuilder =
     http("Get Determine Eligibility - Pass")
-      .get(s"$baseUrl$${DetermineEligibility}")
+      .get(s"$baseUrl#{DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/your-bill").saveAs("YourBillPage"))
 
   val getDetermineEligibilityFailEpaye: HttpRequestBuilder =
     http("Get Determine Eligibility - Fail")
-      .get(s"$baseUrl$${DetermineEligibility}")
+      .get(s"$baseUrl#{DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/not-eligible-epaye").saveAs("IneligiblePage"))
 
   val getDetermineEligibilityFailVat: HttpRequestBuilder =
     http("Get Determine Eligibility - Fail")
-      .get(s"$baseUrl$${DetermineEligibility}")
+      .get(s"$baseUrl#{DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/not-eligible-vat").saveAs("IneligiblePage"))
 
   val getDetermineEligibilityFailSa: HttpRequestBuilder =
     http("Get Determine Eligibility - Fail")
-      .get(s"$baseUrl$${DetermineEligibility}")
+      .get(s"$baseUrl#{DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/not-eligible-sa").saveAs("IneligiblePage"))
 
   val getDetermineEligibilityFailSimp: HttpRequestBuilder =
     http("Get Determine Eligibility - Fail")
-      .get(s"$baseUrl$${DetermineEligibility}")
+      .get(s"$baseUrl#{DetermineEligibility}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/not-eligible-simple-assessment").saveAs("IneligiblePage"))
 
   val getIneligiblePage: HttpRequestBuilder =
     http("Get Ineligible Page")
-      .get(s"$baseUrl$${IneligiblePage}")
+      .get(s"$baseUrl#{IneligiblePage}")
       .check(status.is(200))
 
   val getYourBillPage: HttpRequestBuilder =
     http("Get Your Bill Page")
-      .get(s"$baseUrl$${YourBillPage}")
+      .get(s"$baseUrl#{YourBillPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postYourBillPage: HttpRequestBuilder =
     http("Post Your Bill Page")
-      .post(s"$baseUrl$${YourBillPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{YourBillPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .check(status.is(303))
 
   val getWhyUnablePage: HttpRequestBuilder =
@@ -534,7 +534,7 @@ object Requests extends ServicesConfiguration {
   val postWhyUnablePage: HttpRequestBuilder =
     http("Post Why Unable to Pay Page - None of above")
       .post(s"$baseUrl$route/why-are-you-unable-to-pay-in-full": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("WhyCannotPayInFull[]", "other")
       .check(status.is(303))
       .check(header("Location").is(s"$route/can-you-make-an-upfront-payment").saveAs("CanYouMakeUpfrontPage"))
@@ -548,7 +548,7 @@ object Requests extends ServicesConfiguration {
   val postCanUpfrontPageYes: HttpRequestBuilder =
     http("Post Can You Pay Upfront Page - Yes")
       .post(s"$baseUrl$route/can-you-make-an-upfront-payment": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("CanYouMakeAnUpFrontPayment", "Yes")
       .check(status.is(303))
       .check(header("Location").is(s"$route/how-much-can-you-pay-upfront").saveAs("HowMuchUpfrontPage"))
@@ -556,28 +556,28 @@ object Requests extends ServicesConfiguration {
   val postCanUpfrontPageNo: HttpRequestBuilder =
     http("Post Can You Pay Upfront Page - No")
       .post(s"$baseUrl$route/can-you-make-an-upfront-payment": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("CanYouMakeAnUpFrontPayment", "No")
       .check(status.is(303))
       .check(header("Location").is(s"$route/retrieve-extreme-dates"))
 
   val getHowMuchUpfrontPage: HttpRequestBuilder =
     http("Get How Much Can You Pay Upfront Page")
-      .get(s"$baseUrl$${HowMuchUpfrontPage}")
+      .get(s"$baseUrl#{HowMuchUpfrontPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postHowMuchUpfrontPage: HttpRequestBuilder =
     http("Post How Much Can You Pay Upfront Page")
-      .post(s"$baseUrl$${HowMuchUpfrontPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{HowMuchUpfrontPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("UpfrontPaymentAmount", "1")
       .check(status.is(303))
       .check(header("Location").is(s"$route/upfront-payment-summary").saveAs("UpfrontSummaryPage"))
 
   val getUpfrontSummaryPage: HttpRequestBuilder =
     http("Get Upfront Summary Page")
-      .get(s"$baseUrl$${UpfrontSummaryPage}")
+      .get(s"$baseUrl#{UpfrontSummaryPage}")
       .check(status.is(200))
 
   val getRetrieveExtremeDates: HttpRequestBuilder =
@@ -588,7 +588,7 @@ object Requests extends ServicesConfiguration {
 
   val getDetermineAffordability: HttpRequestBuilder =
     http("Get Determine Affordability")
-      .get(s"$baseUrl$${DetermineAffordability}")
+      .get(s"$baseUrl#{DetermineAffordability}")
       .check(status.is(303))
 
   val getPayInSixPageSA: HttpRequestBuilder =
@@ -615,7 +615,7 @@ object Requests extends ServicesConfiguration {
   val postPayInSixPageYes: HttpRequestBuilder =
     http("Post Can you pay in 6 months Page")
       .post(s"$baseUrl$route/paying-within-six-months")
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("CanPayWithinSixMonths", "Yes")
       .check(status.is(303))
       .check(header("Location").is(s"$route/how-much-can-you-pay-each-month").saveAs("HowMuchMonthlyPage"))
@@ -630,21 +630,21 @@ object Requests extends ServicesConfiguration {
   val postHowMuchMonthlyPage: HttpRequestBuilder =
     http("Post How Much Can You Pay Monthly Page")
       .post(s"$baseUrl$route/how-much-can-you-pay-each-month": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("MonthlyPaymentAmount", "2000")
       .check(status.is(303))
       .check(header("Location").is(s"$route/which-day-do-you-want-to-pay-each-month").saveAs("WhichDayPage"))
 
   val getWhichDayPage: HttpRequestBuilder =
     http("Get Which Day Page")
-      .get(s"$baseUrl$${WhichDayPage}")
+      .get(s"$baseUrl#{WhichDayPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postWhichDayPage: HttpRequestBuilder =
     http("Post Which Day Page")
-      .post(s"$baseUrl$${WhichDayPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{WhichDayPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("PaymentDay", "other")
       .formParam("DifferentDay", "19")
       .check(status.is(303))
@@ -652,75 +652,75 @@ object Requests extends ServicesConfiguration {
 
   val getRetrieveStartDates: HttpRequestBuilder =
     http("Get Retrieve Start Dates")
-      .get(s"$baseUrl$${StartDates}")
+      .get(s"$baseUrl#{StartDates}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/determine-affordable-quotes").saveAs("DetermineQuotes"))
 
   val getDetermineQuotes: HttpRequestBuilder =
     http("Get Determine Quotes")
-      .get(s"$baseUrl$${DetermineQuotes}")
+      .get(s"$baseUrl#{DetermineQuotes}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/how-many-months-do-you-want-to-pay-over").saveAs("HowManyMonthsPage"))
 
   val getHowManyMonthsPage: HttpRequestBuilder =
     http("Get How Many Months Page")
-      .get(s"$baseUrl$${HowManyMonthsPage}")
+      .get(s"$baseUrl#{HowManyMonthsPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postHowManyMonthsPage: HttpRequestBuilder =
     http("Post How Many Months Page")
-      .post(s"$baseUrl$${HowManyMonthsPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{HowManyMonthsPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("Instalments", "5")
       .check(status.is(303))
       .check(header("Location").is(s"$route/check-your-payment-plan").saveAs("CheckPlanPage"))
 
   val getCheckPaymentPlanPage: HttpRequestBuilder =
     http("Get Check Payment Plan Page")
-      .get(s"$baseUrl$${CheckPlanPage}")
+      .get(s"$baseUrl#{CheckPlanPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postCheckPaymentPlanPage: HttpRequestBuilder =
     http("Post Check Payment Plan Page")
-      .post(s"$baseUrl$${CheckPlanPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{CheckPlanPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/check-you-can-set-up-a-direct-debit").saveAs("AboutYourBankAccountPage"))
 
   val getAboutYourBankAccountPage: HttpRequestBuilder =
     http("Get About Your Bank Account Page")
-      .get(s"$baseUrl$${AboutYourBankAccountPage}")
+      .get(s"$baseUrl#{AboutYourBankAccountPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postAboutYourBankAccountPageSoleSig: HttpRequestBuilder =
     http("Post About Your Bank Account Page - Sole Signatory")
-      .post(s"$baseUrl$${AboutYourBankAccountPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{AboutYourBankAccountPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("isSoleSignatory", "Yes")
       .check(status.is(303))
       .check(header("Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
 
   val postAboutYourBankAccountPageNotSoleSig: HttpRequestBuilder =
     http("Post About Your Bank Account Page - Not Sole Signatory")
-      .post(s"$baseUrl$${AboutYourBankAccountPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{AboutYourBankAccountPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("isSoleSignatory", "Yes")
       .check(status.is(303))
       .check(header("Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
 
   val getSetupDirectDebitPage: HttpRequestBuilder =
     http("Get Setup Direct Debit Page")
-      .get(s"$baseUrl$${DirectDebitPage}")
+      .get(s"$baseUrl#{DirectDebitPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postSetupDirectDebitPageBusiness: HttpRequestBuilder =
     http("Post Setup Direct Debit Page - Business")
-      .post(s"$baseUrl$${DirectDebitPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{DirectDebitPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("accountType", "Business")
       .formParam("name", "Lambent Illumination")
       .formParam("sortCode", "207102")
@@ -730,8 +730,8 @@ object Requests extends ServicesConfiguration {
 
   val postSetupDirectDebitPagePersonal: HttpRequestBuilder =
     http("Post Setup Direct Debit Page - Personal")
-      .post(s"$baseUrl$${DirectDebitPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{DirectDebitPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("accountType", "Personal")
       .formParam("name", "Teddy Dickson")
       .formParam("sortCode", "207102")
@@ -741,40 +741,40 @@ object Requests extends ServicesConfiguration {
 
   val getDirectDebitSummaryPage: HttpRequestBuilder =
     http("Get Direct Debit Summary Page")
-      .get(s"$baseUrl$${CheckDirectDebitPage}")
+      .get(s"$baseUrl#{CheckDirectDebitPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postDirectDebitSummaryPage: HttpRequestBuilder =
     http("Post Direct Debit Summary Page")
-      .post(s"$baseUrl$${CheckDirectDebitPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{CheckDirectDebitPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/terms-and-conditions").saveAs("TermsPage"))
 
   val getTermsAndConditionsPage: HttpRequestBuilder =
     http("Get Terms and Conditions Page")
-      .get(s"$baseUrl$${TermsPage}")
+      .get(s"$baseUrl#{TermsPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postTermsAndConditionsPage: HttpRequestBuilder =
     http("Post Terms and Conditions Page")
-      .post(s"$baseUrl$${TermsPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{TermsPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .check(status.is(303))
       .check(header("Location").is(s"$route/which-email-do-you-want-to-use").saveAs("WhichEmailPage"))
 
   val getWhichEmailPage: HttpRequestBuilder =
     http("Get Which Email Page")
-      .get(s"$baseUrl$${WhichEmailPage}")
+      .get(s"$baseUrl#{WhichEmailPage}")
       .check(status.is(200))
       .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
 
   val postWhichEmailPage: HttpRequestBuilder =
     http("Post Which Email Page")
-      .post(s"$baseUrl$${WhichEmailPage}": String)
-      .formParam("csrfToken", s"$${csrfToken}")
+      .post(s"$baseUrl#{WhichEmailPage}": String)
+      .formParam("csrfToken", s"#{csrfToken}")
       .formParam("selectAnEmailToUseRadio", "new")
       .formParam("newEmailInput", "helloexample@email.com")
       .check(status.is(303))
@@ -782,18 +782,18 @@ object Requests extends ServicesConfiguration {
 
   val getEmailVerification: HttpRequestBuilder =
     http("Get Email Verification")
-      .get(s"$baseUrl$${EmailVerification}")
+      .get(s"$baseUrl#{EmailVerification}")
       .check(status.is(303))
       .check(header("Location").saveAs("VerificationFrontend"))
 
   val getVerificationFrontend: HttpRequestBuilder =
     http("Get Verification Frontend")
-      .get(s"$emailUrl$${VerificationFrontend}")
+      .get(s"$emailUrl#{VerificationFrontend}")
       .check(status.is(200))
 
   val getVerificationFrontendLocal: HttpRequestBuilder =
     http("Get Verification Frontend")
-      .get(s"$${VerificationFrontend}")
+      .get(s"#{VerificationFrontend}")
       .check(status.is(200))
 
   val getTestOnlyPasscode: HttpRequestBuilder =
@@ -804,9 +804,9 @@ object Requests extends ServicesConfiguration {
 
   val postVerificationFrontend: HttpRequestBuilder =
     http("Post Verification Frontend")
-      .post(s"$emailUrl$${VerificationFrontend}")
-      .formParam("csrfToken", s"$${csrfToken}")
-      .formParam("passcode", s"$${code}")
+      .post(s"$emailUrl#{VerificationFrontend}")
+      .formParam("csrfToken", s"#{csrfToken}")
+      .formParam("passcode", s"#{code}")
       .check(status.is(303))
 
   val getEmailCallback: HttpRequestBuilder =
@@ -817,7 +817,7 @@ object Requests extends ServicesConfiguration {
 
   val getEmailConfirmationPage: HttpRequestBuilder =
     http("Get Email Confirmation Page")
-      .get(s"$baseUrl$${EmailConfirmationPage}")
+      .get(s"$baseUrl#{EmailConfirmationPage}")
       .check(status.is(200))
 
   val getSubmitArrangementEpaye: HttpRequestBuilder =
@@ -846,7 +846,7 @@ object Requests extends ServicesConfiguration {
 
   val getConfirmationPage: HttpRequestBuilder =
     http("Get Confirmation Page")
-      .get(s"$baseUrl$${ConfirmationPage}")
+      .get(s"$baseUrl#{ConfirmationPage}")
       .check(status.is(200))
 
 }
