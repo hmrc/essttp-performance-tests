@@ -15,7 +15,7 @@ Run the following command to start the services locally:
 ```
 docker run --rm -d --name mongo -d -p 27017:27017 mongo:4.0
 
-sm --start ESSTP -r --wait 100
+sm2 --start ESSTTP --wait 100
 ```
 
 Using the `--wait 100` argument ensures a health check is run on all the services started as part of the profile. `100`
