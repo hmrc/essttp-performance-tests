@@ -42,7 +42,7 @@ object Requests extends ServicesConfiguration {
   val postInitialPageEpaye: HttpRequestBuilder =
     http("Post Initial Page - EPAYE")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("taxRegime", _ => "Epaye")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/test-only/start-journey-epaye").saveAs("EpayeStartPage"))
@@ -50,7 +50,7 @@ object Requests extends ServicesConfiguration {
   val postInitialPageSa: HttpRequestBuilder =
     http("Post Initial Page - SA")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("taxRegime", _ => "SA")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/test-only/start-journey-sa").saveAs("SaStartPage"))
@@ -58,7 +58,7 @@ object Requests extends ServicesConfiguration {
   val postInitialPageVat: HttpRequestBuilder =
     http("Post Initial Page - VAT")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("taxRegime", _ => "VAT")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/test-only/start-journey-vat").saveAs("VatStartPage"))
@@ -66,7 +66,7 @@ object Requests extends ServicesConfiguration {
   val postInitialPageSimp: HttpRequestBuilder =
     http("Post Initial Page - Simple Assessment")
       .post(s"$baseUrl$route/test-only/tax-regime": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("taxRegime", _ => "SIMP")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/test-only/start-journey-simp").saveAs("SimpStartPage"))
@@ -94,7 +94,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageBusinessEpaye: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Organisation")
       .formParam("confidenceLevel", _ => "50")
@@ -121,7 +121,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualEpaye: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Individual")
       .formParam("confidenceLevel", _ => "50")
@@ -148,7 +148,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleEpaye: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-epaye": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Individual")
       .formParam("confidenceLevel", _ => "50")
@@ -176,7 +176,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageBusinessVat: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-vat": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Organisation")
       .formParam("confidenceLevel", _ => "50")
@@ -205,7 +205,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualVat: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-vat": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Individual")
       .formParam("confidenceLevel", _ => "50")
@@ -233,7 +233,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleVat: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-vat": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Individual")
       .formParam("confidenceLevel", _ => "50")
@@ -263,7 +263,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageBusinessSa: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-sa": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Organisation")
       .formParam("confidenceLevel", _ => "50")
@@ -293,7 +293,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualSa: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-sa": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Individual")
       .formParam("confidenceLevel", _ => "50")
@@ -323,7 +323,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleSa: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-sa": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Individual")
       .formParam("confidenceLevel", _ => "50")
@@ -355,7 +355,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageBusinessSimp: HttpRequestBuilder =
     http("Post Start Page - Business")
       .post(s"$baseUrl$route/test-only/start-journey-simp": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Organisation")
       .formParam("confidenceLevel", _ => "50")
@@ -379,7 +379,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIndividualSimp: HttpRequestBuilder =
     http("Post Start Page - Individual")
       .post(s"$baseUrl$route/test-only/start-journey-simp": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Individual")
       .formParam("confidenceLevel", _ => "50")
@@ -403,7 +403,7 @@ object Requests extends ServicesConfiguration {
   val postStartPageIneligibleSimp: HttpRequestBuilder =
     http("Post Start Page - Ineligible")
       .post(s"$baseUrl$route/test-only/start-journey-simp": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("credId", _ => "")
       .formParam("signInAs", _ => "Organisation")
       .formParam("confidenceLevel", _ => "50")
@@ -522,7 +522,7 @@ object Requests extends ServicesConfiguration {
   val postYourBillPage: HttpRequestBuilder =
     http("Post Your Bill Page")
       .post(s"$baseUrl#{YourBillPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .check(status.is(303))
 
   val getWhyUnablePage: HttpRequestBuilder =
@@ -534,7 +534,7 @@ object Requests extends ServicesConfiguration {
   val postWhyUnablePage: HttpRequestBuilder =
     http("Post Why Unable to Pay Page - None of above")
       .post(s"$baseUrl$route/why-are-you-unable-to-pay-in-full": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("WhyCannotPayInFull[]", _ => "other")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/can-you-make-an-upfront-payment").saveAs("CanYouMakeUpfrontPage"))
@@ -548,7 +548,7 @@ object Requests extends ServicesConfiguration {
   val postCanUpfrontPageYes: HttpRequestBuilder =
     http("Post Can You Pay Upfront Page - Yes")
       .post(s"$baseUrl$route/can-you-make-an-upfront-payment": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("CanYouMakeAnUpFrontPayment", _ => "Yes")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/how-much-can-you-pay-upfront").saveAs("HowMuchUpfrontPage"))
@@ -556,7 +556,7 @@ object Requests extends ServicesConfiguration {
   val postCanUpfrontPageNo: HttpRequestBuilder =
     http("Post Can You Pay Upfront Page - No")
       .post(s"$baseUrl$route/can-you-make-an-upfront-payment": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("CanYouMakeAnUpFrontPayment", _ => "No")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/retrieve-extreme-dates"))
@@ -570,7 +570,7 @@ object Requests extends ServicesConfiguration {
   val postHowMuchUpfrontPage: HttpRequestBuilder =
     http("Post How Much Can You Pay Upfront Page")
       .post(s"$baseUrl#{HowMuchUpfrontPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("UpfrontPaymentAmount", _ => "1")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/upfront-payment-summary").saveAs("UpfrontSummaryPage"))
@@ -615,7 +615,7 @@ object Requests extends ServicesConfiguration {
   val postPayInSixPageYes: HttpRequestBuilder =
     http("Post Can you pay in 6 months Page")
       .post(s"$baseUrl$route/paying-within-six-months")
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("CanPayWithinSixMonths", _ => "Yes")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/how-much-can-you-pay-each-month").saveAs("HowMuchMonthlyPage"))
@@ -630,7 +630,7 @@ object Requests extends ServicesConfiguration {
   val postHowMuchMonthlyPage: HttpRequestBuilder =
     http("Post How Much Can You Pay Monthly Page")
       .post(s"$baseUrl$route/how-much-can-you-pay-each-month": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("MonthlyPaymentAmount", _ => "2000")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/which-day-do-you-want-to-pay-each-month").saveAs("WhichDayPage"))
@@ -644,7 +644,7 @@ object Requests extends ServicesConfiguration {
   val postWhichDayPage: HttpRequestBuilder =
     http("Post Which Day Page")
       .post(s"$baseUrl#{WhichDayPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("PaymentDay", _ => "other")
       .formParam("DifferentDay", _ => "19")
       .check(status.is(303))
@@ -671,7 +671,7 @@ object Requests extends ServicesConfiguration {
   val postHowManyMonthsPage: HttpRequestBuilder =
     http("Post How Many Months Page")
       .post(s"$baseUrl#{HowManyMonthsPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("Instalments", _ => "5")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/check-your-payment-plan").saveAs("CheckPlanPage"))
@@ -685,7 +685,7 @@ object Requests extends ServicesConfiguration {
   val postCheckPaymentPlanPage: HttpRequestBuilder =
     http("Post Check Payment Plan Page")
       .post(s"$baseUrl#{CheckPlanPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/check-you-can-set-up-a-direct-debit").saveAs("AboutYourBankAccountPage"))
 
@@ -698,7 +698,7 @@ object Requests extends ServicesConfiguration {
   val postAboutYourBankAccountPageSoleSig: HttpRequestBuilder =
     http("Post About Your Bank Account Page - Sole Signatory")
       .post(s"$baseUrl#{AboutYourBankAccountPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("isSoleSignatory", _ => "Yes")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
@@ -706,7 +706,7 @@ object Requests extends ServicesConfiguration {
   val postAboutYourBankAccountPageNotSoleSig: HttpRequestBuilder =
     http("Post About Your Bank Account Page - Not Sole Signatory")
       .post(s"$baseUrl#{AboutYourBankAccountPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("isSoleSignatory", _ => "Yes")
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
@@ -720,7 +720,7 @@ object Requests extends ServicesConfiguration {
   val postSetupDirectDebitPageBusiness: HttpRequestBuilder =
     http("Post Setup Direct Debit Page - Business")
       .post(s"$baseUrl#{DirectDebitPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("accountType", _ => "Business")
       .formParam("name", _ => "Lambent Illumination")
       .formParam("sortCode", _ => "207102")
@@ -731,7 +731,7 @@ object Requests extends ServicesConfiguration {
   val postSetupDirectDebitPagePersonal: HttpRequestBuilder =
     http("Post Setup Direct Debit Page - Personal")
       .post(s"$baseUrl#{DirectDebitPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("accountType", _ => "Personal")
       .formParam("name", _ => "Teddy Dickson")
       .formParam("sortCode", _ => "207102")
@@ -748,7 +748,7 @@ object Requests extends ServicesConfiguration {
   val postDirectDebitSummaryPage: HttpRequestBuilder =
     http("Post Direct Debit Summary Page")
       .post(s"$baseUrl#{CheckDirectDebitPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/terms-and-conditions").saveAs("TermsPage"))
 
@@ -761,7 +761,7 @@ object Requests extends ServicesConfiguration {
   val postTermsAndConditionsPage: HttpRequestBuilder =
     http("Post Terms and Conditions Page")
       .post(s"$baseUrl#{TermsPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .check(status.is(303))
       .check(header(_ => "Location").is(s"$route/which-email-do-you-want-to-use").saveAs("WhichEmailPage"))
 
@@ -774,7 +774,7 @@ object Requests extends ServicesConfiguration {
   val postWhichEmailPage: HttpRequestBuilder =
     http("Post Which Email Page")
       .post(s"$baseUrl#{WhichEmailPage}": String)
-      .formParam("csrfToken", session => session("csrfToken").as[String])
+      .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("selectAnEmailToUseRadio", _ => "new")
       .formParam("newEmailInput", _ => "helloexample@email.com")
       .check(status.is(303))
@@ -804,9 +804,12 @@ object Requests extends ServicesConfiguration {
 
   val postVerificationFrontend: HttpRequestBuilder =
     http("Post Verification Frontend")
-      .post(s"$emailUrl#{VerificationFrontend}")
-      .formParam("csrfToken", session => session("csrfToken").as[String])
-      .formParam("passcode", _ => s"#{code}")
+      .post { session =>
+        val url = session("VerificationFrontend").as[String]
+        if (url.startsWith("/")) s"$emailUrl$url" else url
+      }
+      .formParam("csrfToken", _("csrfToken").as[String])
+      .formParam("passcode", _("code").as[String])
       .check(status.is(303))
 
   val getEmailCallback: HttpRequestBuilder =
