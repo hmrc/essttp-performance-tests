@@ -701,15 +701,42 @@ object Requests extends ServicesConfiguration {
       .formParam("csrfToken", _("csrfToken").as[String])
       .formParam("isSoleSignatory", _ => "Yes")
       .check(status.is(303))
-      .check(header(_ => "Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
+      .check(header(_ => "Location").is(s"$route/bank-account-type").saveAs("TypeOfBankAccountPage"))
 
   val postAboutYourBankAccountPageNotSoleSig: HttpRequestBuilder =
     http("Post About Your Bank Account Page - Not Sole Signatory")
       .post(s"$baseUrl#{AboutYourBankAccountPage}": String)
       .formParam("csrfToken", _("csrfToken").as[String])
-      .formParam("isSoleSignatory", _ => "Yes")
+      .formParam("isSoleSignatory", _ => "No")
       .check(status.is(303))
-      .check(header(_ => "Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
+      .check(header(_ => "Location").is(s"$route/you-cannot-set-up-a-direct-debit-online").saveAs("CannotSetUpDirectDebitOnlinePage"))
+
+  val getCannotSetUpDirectDebitOnlinePage: HttpRequestBuilder =
+      http("Cannot Set Up Direct Debit Online Page")
+        .get(s"$baseUrl#{CannotSetUpDirectDebitOnlinePage}")
+        .check(status.is(200))
+
+  val getTypeOfBankAccountPage: HttpRequestBuilder =
+    http("Get Type Of Bank Account Page")
+      .get(s"$baseUrl#{TypeOfBankAccountPage}")
+      .check(status.is(200))
+      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+
+  val postTypeOfBankAccountPageBusiness: HttpRequestBuilder =
+      http("Post Type Of Bank Account Page - Business")
+        .post(s"$baseUrl#{TypeOfBankAccountPage}": String)
+        .formParam("csrfToken", _("csrfToken").as[String])
+        .formParam("accountType", _ => "Business")
+        .check(status.is(303))
+        .check(header(_ => "Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
+
+    val postTypeOfBankAccountPagePersonal: HttpRequestBuilder =
+      http("Post Type Of Bank Account Page - Personal")
+        .post(s"$baseUrl#{TypeOfBankAccountPage}": String)
+        .formParam("csrfToken", _("csrfToken").as[String])
+        .formParam("accountType", _ => "Personal")
+        .check(status.is(303))
+        .check(header(_ => "Location").is(s"$route/bank-account-details").saveAs("DirectDebitPage"))
 
   val getSetupDirectDebitPage: HttpRequestBuilder =
     http("Get Setup Direct Debit Page")
@@ -721,7 +748,6 @@ object Requests extends ServicesConfiguration {
     http("Post Setup Direct Debit Page - Business")
       .post(s"$baseUrl#{DirectDebitPage}": String)
       .formParam("csrfToken", _("csrfToken").as[String])
-      .formParam("accountType", _ => "Business")
       .formParam("name", _ => "Lambent Illumination")
       .formParam("sortCode", _ => "207102")
       .formParam("accountNumber", _ => "86563611")
@@ -732,7 +758,6 @@ object Requests extends ServicesConfiguration {
     http("Post Setup Direct Debit Page - Personal")
       .post(s"$baseUrl#{DirectDebitPage}": String)
       .formParam("csrfToken", _("csrfToken").as[String])
-      .formParam("accountType", _ => "Personal")
       .formParam("name", _ => "Teddy Dickson")
       .formParam("sortCode", _ => "207102")
       .formParam("accountNumber", _ => "44311655")
