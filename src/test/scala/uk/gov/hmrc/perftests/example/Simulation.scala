@@ -163,19 +163,25 @@ class Simulation extends PerformanceTestRunner {
   ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageNotSoleSig)
 
   setup(
+    "cannot-set-up-a-direct-debit-online",
+    "Cannot Set Up A Direct Debit Online"
+  ).withRequests(getCannotSetUpDirectDebitOnlinePage)
+
+  setup(
     "about-your-bank-account-page-sole-sig",
     "About Your Bank Account Page - Sole Signatory"
   ).withRequests(getAboutYourBankAccountPage, postAboutYourBankAccountPageSoleSig)
 
+
   setup(
     "setup-direct-debit-page-business",
     "Setup Direct Debit Page - Business"
-  ).withRequests(getSetupDirectDebitPage, postSetupDirectDebitPageBusiness)
+  ).withRequests(getTypeOfBankAccountPage, postTypeOfBankAccountPageBusiness, getSetupDirectDebitPage, postSetupDirectDebitPageBusiness)
 
   setup(
     "setup-direct-debit-page-personal",
     "Setup Direct Debit Page - Personal"
-  ).withRequests(getSetupDirectDebitPage, postSetupDirectDebitPagePersonal)
+  ).withRequests(getTypeOfBankAccountPage, postTypeOfBankAccountPagePersonal, getSetupDirectDebitPage, postSetupDirectDebitPagePersonal)
 
   setup(
     "direct-debit-summary-page",
